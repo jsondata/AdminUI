@@ -1,0 +1,15 @@
+<div>
+    <a-page-header category="组件示例" title="图表" description="基于 ECharts 的常用图表示例，支持悬浮提示和图例切换" />
+    <el-alert v-if="mapError" :title="mapError" type="error" :closable="false" class="mb-3">
+        <el-button size="small" @click="render">重试</el-button>
+    </el-alert>
+    <p v-if="loading && !datasets.length">正在加载图表数据…</p>
+    <div class="demo-charts-grid">
+        <a-panel v-for="(item,i) in datasets" :key="item.title" :title="item.title">
+            <div :ref="el => { if (el) nodes[i] = el }" class="demo-echart" :class="{'is-map':item.type==='map'}" role="img" :aria-label="item.title+'：'+item.subtitle"></div>
+        </a-panel>
+    </div>
+    <a-panel title="接入示例" description="ECharts 已在演示站本地加载；图表数据可替换为业务数据">
+        <a-code :code="code" label="JavaScript" />
+    </a-panel>
+</div>

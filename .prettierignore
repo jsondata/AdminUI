@@ -1,3 +1,5 @@
 vendor/
 .idea/
 preview/
+# 页面 HTML 的开始标签由项目格式工具整理。
+app/pages/**/*.html

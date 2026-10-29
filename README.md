@@ -28,6 +28,7 @@ python3 -m http.server 8300 --bind 127.0.0.1
 - `src/admin-request.js`：可选的统一请求入口，读取正式配置创建 `AdminUI.api`。
 - `src/admin-ui.css`：主题变量、组件与响应式布局。
 - `app/pages/`：按页面拆分的业务、组件展示及文档页面；`app/components/` 保存组件展示页面使用的代码，`app/assets/` 保存应用样式，`app/utils/` 保存应用公共工具。
+- 页面 HTML 与 JavaScript 分开维护，例如 `app/pages/users/index.html` 和 `app/pages/users/index.js`。通过页面组件的 `templateUrl` 指定模板路径，`app/utils/page-loader.js` 在打开页面时读取 HTML，失败时可重试；关闭标签后重新打开会重新读取。已有直接写 `template` 的 Vue 组件也能继续使用。
 - `app/mock/`：当前菜单、用户、工作台、报表、图表等本地 JSON。现有页面仍依赖这些数据，接入真实接口后才能按需移除。
 - `vendor/`：上游发行文件与许可证。
 - `tests/`：无需安装依赖的 Node 回归测试，仅开发验收使用。
@@ -35,6 +36,33 @@ python3 -m http.server 8300 --bind 127.0.0.1
 部署当前应用时，保留根目录 `index.html`、`app/`、`config/`、`src/` 和所用的 `vendor/` 依赖。当前文档页面引用 `docs/guide/` 中的接入示例，保留文档页面时也应保留该目录；`preview/`、`tests/`、`tools/` 可从部署包排除。当前页面仍使用 `app/mock/` 的本地数据，上线前应接入真实业务接口并确认菜单来源，再移除不需要的模拟数据。图表、富文本及其 vendor 资源可在移除相关页面或功能后按需精简。
 
 ## 两种接入方式
+
+### 添加业务页面
+
+在 `app/pages/` 下按业务创建目录，并将 HTML 模板和 JS 组件放在一起，例如：
+
+```html
+<!-- app/pages/profile/index.html -->
+<div>
+    <a-page-header title="个人资料" />
+    <el-button @click="save">保存</el-button>
+</div>
+```
+
+```js
+// app/pages/profile/index.js
+AdminUIPages.Profile = {
+    templateUrl: 'app/pages/profile/index.html',
+    setup() {
+        function save() {
+            ElementPlus.ElMessage.success('已保存');
+        }
+        return { save };
+    },
+};
+```
+
+在 `index.html` 的 `app/main.js` 之前引入页面 JS，并在 `app/main.js` 的 `routes` 中注册组件、在菜单数据中添加入口。`templateUrl` 相对于应用入口地址；页面模板通过 HTTP 请求读取，因此要通过静态服务器访问，而不能直接双击 HTML 文件。只加载可信的项目模板，Vue 模板能够执行其中的表达式。对于动态组合生成的组件目录，仍使用 JS 模板。
 
 ### 完整应用框架
 
@@ -222,7 +250,7 @@ const data = await AdminUI.request('/api/users?page=1', {
 ```sh
 node --test tests/workspace.test.cjs
 node --check src/admin-ui.js
-node --check app/pages/users.js
+node --check app/pages/users/index.js
 ```
 
 Node 仅用于无依赖测试，不是运行或构建依赖。页面交互仍须浏览器验收。菜单、用户初始数据、工作台、报表和图表示例通过本地 JSON 请求加载。示例用户的新增/编辑/删除仅写当前浏览器 localStorage，已有数据优先于 JSON；“恢复演示数据”会使用 users.json 重置。修改 JSON 后刷新即可；切换到真实接口时需自行处理权限与数据协议。首页部分文案和时间线仍为静态演示。
@@ -260,7 +288,7 @@ menus: [{
 - 可独立使用 `<a-menu :items="tree" :active="path" :accordion="true" @navigate="path=$event" />`；AMenu 本身不写浏览器地址，也不负责接口权限。
 - `AdminUI.findMenuTrail(tree, path)` 返回当前路径的完整节点数组，未匹配返回空数组。
 
-真实交互示例在“组件中心 → 布局与导航 → 多级菜单”；源码位于 `app/components/navigation.js`。
+真实交互示例在“组件中心 → 布局与导航 → 多级菜单”；源码位于 `app/pages/navigation/index.js`。
 
 ## 可读性基线（0.2.0）
 
@@ -283,6 +311,13 @@ menus: [{
 
 ```bash
 npx --yes prettier@3.6.2 --write index.html 'app/**/*.{js,css,html,json}' 'config/**/*.js' 'src/**/*.{js,css}' 'docs/guide/**/*.{js,css,html}' 'tests/**/*.cjs' adminui.json
+```
+
+页面 HTML 的开始标签和属性保持在同一行，内容和结束标签按层级排列。页面模板不交给 Prettier 重排，可用下面的命令整理或检查开始标签；格式工具仅用于开发，不是应用运行依赖：
+
+```bash
+python3 tools/format_page_html.py
+python3 tools/format_page_html.py --check
 ```
 
 JavaScript 中的 `/* HTML */` 是 Prettier 识别 Vue 模板的格式标记，保留它可以在后续格式化时继续整理模板。Python 示例保持 4 空格缩进，可按项目规范单独维护。

@@ -1335,6 +1335,10 @@ body {
 .el-select__wrapper {
     min-height: 38px;
 }
+/* 默认尺寸的下拉框与输入框使用相同基础字号。 */
+.el-select:not(.el-select--small):not(.el-select--large) > .el-select__wrapper {
+    font-size: var(--el-font-size-base);
+}
 @media (max-width: 767px) {
     .aui-content {
         padding: 20px 16px;

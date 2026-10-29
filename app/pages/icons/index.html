@@ -1,0 +1,19 @@
+<div>
+    <a-page-header category="基础组件" title="图标" description="浏览常用图标，点击图标查看并复制使用代码" />
+    <a-panel title="常用图标">
+        <template #actions>
+            <el-input v-model="keyword" clearable placeholder="搜索名称或用途" aria-label="搜索图标" class="demo-icon-search" />
+        </template>
+        <div class="demo-icon-grid">
+            <button v-for="[name,label] in filtered" :key="name" type="button" class="demo-icon-card" :class="{'is-selected':selected===name}" :aria-pressed="selected===name" @click="selected=name">
+                <a-icon :name="name" :size="24" />
+                <strong>{{label}}</strong>
+                <code>{{name}}</code>
+            </button>
+        </div>
+        <a-empty v-if="!filtered.length" title="没有找到图标" description="尝试其他名称或用途。" />
+    </a-panel>
+    <a-panel title="使用代码" description="选择上方图标后，可复制下面的代码">
+        <a-code :code="code" label="Vue 模板" />
+    </a-panel>
+</div>

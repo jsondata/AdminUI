@@ -57,12 +57,7 @@
                                     </div>
                                     <div class="auth-visual-chart">
                                         <svg viewBox="0 0 190 55" preserveAspectRatio="none">
-                                            <path
-                                                d="M0 47 L28 38 L52 43 L80 25 L108 31 L136 16 L161 21 L190 6"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                            />
+                                            <path d="M0 47 L28 38 L52 43 L80 25 L108 31 L136 16 L161 21 L190 6" fill="none" stroke="currentColor" stroke-width="2" />
                                         </svg>
                                     </div>
                                 </div>
@@ -85,13 +80,7 @@
                                 <el-input v-model="form.email" type="email" placeholder="name@example.com" autocomplete="email" />
                             </el-form-item>
                             <el-form-item label="密码" prop="password">
-                                <el-input
-                                    v-model="form.password"
-                                    type="password"
-                                    show-password
-                                    placeholder="请输入密码"
-                                    :autocomplete="type === 'login' ? 'current-password' : 'new-password'"
-                                />
+                                <el-input v-model="form.password" type="password" show-password placeholder="请输入密码" :autocomplete="type === 'login' ? 'current-password' : 'new-password'" />
                             </el-form-item>
                             <el-form-item v-if="type === 'register'" label="确认密码" prop="confirm">
                                 <el-input v-model="form.confirm" type="password" show-password placeholder="再次输入密码" autocomplete="new-password" />

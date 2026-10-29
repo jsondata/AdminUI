@@ -1,0 +1,18 @@
+<div>
+    <a-page-header title="表单构建" category="组件" description="声明字段与校验规则，即可生成业务表单" />
+    <a-panel title="创建一个新项目" description="统一的标签、间距和交互行为">
+        <a-form :model="model" :fields="fields" :rules="rules" submit-text="校验并预览" @submit="submit" @cancel="reset" />
+    </a-panel>
+    <div class="demo-component-grid">
+        <a-panel title="表单数据预览" description="只在本地预览，不调用真实接口">
+            <a-code v-if="result" :code="result" label="JSON" />
+            <a-empty v-else title="准备好你的第一个项目" description="填写上方表单，校验通过后在这里预览结果。" />
+        </a-panel>
+        <a-panel title="如何使用">
+            <a-code :code="formSample" />
+            <p class="demo-doc-text mt-3 mb-0">
+                字段支持输入框、下拉框、多选、日期、数字、开关、文本域和富文本编辑。复杂字段通过同名插槽扩展。
+            </p>
+        </a-panel>
+    </div>
+</div>

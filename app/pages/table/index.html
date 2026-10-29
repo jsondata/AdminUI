@@ -1,0 +1,106 @@
+<div>
+    <a-page-header category="组件示例" title="表格组件" description="排序、选择、固定列、复杂表头和行内编辑" />
+    <a-panel title="基础表格" description="单选当前行、点击表头排序，双击行查看提示">
+        <div class="catalog-row">
+            <el-input v-model="keyword" clearable placeholder="搜索项目名称" aria-label="搜索项目名称" style="max-width:240px" />
+            <span>
+                当前行：{{current ? current.name : '未选择'}} · 已勾选
+                {{selected.length}} 项
+            </span>
+        </div>
+        <el-table :data="filtered" row-key="id" highlight-current-row @selection-change="selected=$event" @current-change="current=$event" @row-dblclick="rowEvent" :default-sort="{prop:'score',order:'descending'}">
+            <el-table-column type="selection" width="48" />
+            <el-table-column label="单选" width="70">
+                <template #default="{row}">
+                    <el-radio v-model="selectedId" :value="row.id" :aria-label="'选择'+row.name">
+                        <span class="visually-hidden">{{row.name}}</span>
+                    </el-radio>
+                </template>
+            </el-table-column>
+            <el-table-column prop="name" label="项目名称" min-width="150" />
+            <el-table-column prop="owner" label="负责人" min-width="110" />
+            <el-table-column prop="score" label="评分" sortable min-width="100" />
+            <el-table-column prop="department" label="部门" min-width="110" />
+        </el-table>
+    </a-panel>
+    <a-panel title="复杂表头与固定列" description="窄屏可横向滚动，首尾列保持可见">
+        <el-table :data="rows" row-key="id" border>
+            <el-table-column label="项目" fixed="left">
+                <el-table-column prop="name" label="名称" width="180" />
+                <el-table-column prop="owner" label="负责人" width="130" />
+            </el-table-column>
+            <el-table-column label="组织信息">
+                <el-table-column prop="department" label="部门" width="160" />
+                <el-table-column prop="city" label="城市" width="160" />
+            </el-table-column>
+            <el-table-column label="评估">
+                <el-table-column prop="score" label="评分" width="150" sortable />
+                <el-table-column label="状态" width="140">
+                    <template #default="{row}">
+                        <el-tag :type="row.enabled?'success':'info'">
+                            {{row.enabled?'启用':'停用'}}
+                        </el-tag>
+                    </template>
+                </el-table-column>
+            </el-table-column>
+            <el-table-column label="操作" fixed="right" width="100">
+                <template #default="{row}">
+                    <el-button type="primary" text @click="rowEvent(row)">
+                        查看
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </a-panel>
+    <a-panel title="单元格编辑与行内表单" description="双击名称编辑，按 Enter 保存、Esc 取消；切换开关直接更新演示数据">
+        <el-table :data="rows" row-key="id" border>
+            <el-table-column label="项目名称" min-width="200">
+                <template #default="{row}">
+                    <el-input v-if="editing===row.id" v-model="draft" size="small" @keyup.enter="finishEdit(row)" @keyup.esc="cancelEdit" />
+                    <button v-else type="button" class="demo-editable-cell" @dblclick="startEdit(row)" :aria-label="'双击编辑'+row.name">
+                        {{row.name}}
+                        <a-icon name="edit" :size="14" />
+                    </button>
+                </template>
+            </el-table-column>
+            <el-table-column label="评分" min-width="150">
+                <template #default="{row}">
+                    <el-input-number v-model="row.score" :min="0" :max="100" size="small" />
+                </template>
+            </el-table-column>
+            <el-table-column label="启用" min-width="100">
+                <template #default="{row}">
+                    <el-switch v-model="row.enabled" />
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="120">
+                <template #default="{row}">
+                    <template v-if="editing===row.id">
+                        <el-button type="primary" text @click="finishEdit(row)">
+                            保存
+                        </el-button>
+                        <el-button text @click="cancelEdit">取消</el-button>
+                    </template>
+                    <el-button v-else type="primary" text @click="startEdit(row)">
+                        编辑名称
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </a-panel>
+    <a-panel title="接口格式解析与分页" description="本地模拟接口响应，将 records 映射为表格数据；真实服务端需传入页码与每页数量">
+        <template #actions>
+            <el-button @click="loadRemote">重新加载</el-button>
+        </template>
+        <el-table :data="remoteRows" v-loading="remoteLoading" row-key="id">
+            <el-table-column prop="id" label="编号" />
+            <el-table-column prop="name" label="项目" />
+            <el-table-column prop="owner" label="负责人" />
+        </el-table>
+        <div class="demo-remote-pagination">
+            <el-pagination v-model:current-page="remotePage" v-model:page-size="remoteSize" :page-sizes="[3,5,10]" :total="remoteTotal" layout="total, sizes, prev, pager, next" background />
+        </div>
+        <a-code :code="parseCode" label="数据解析" />
+    </a-panel>
+    <a-panel title="代码示例"><a-code :code="code" label="Vue 模板" /></a-panel>
+</div>

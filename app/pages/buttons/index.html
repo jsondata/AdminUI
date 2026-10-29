@@ -1,0 +1,31 @@
+<div>
+    <a-page-header category="基础组件" title="按钮" description="统一尺寸、状态和操作层次" />
+    <a-panel title="操作层次" description="主要操作突出，其余操作保持克制">
+        <div class="demo-button-row">
+            <el-button type="primary" @click="submit">主要操作</el-button>
+            <el-button @click="submit">默认操作</el-button>
+            <el-button type="primary" plain @click="submit">次要操作</el-button>
+            <el-button type="danger" plain @click="submit">危险操作</el-button>
+            <el-button text type="primary" @click="submit">文字操作</el-button>
+        </div>
+    </a-panel>
+    <a-panel title="图标与状态">
+        <div class="demo-button-row">
+            <el-button type="primary" :loading="loading" @click="submit">
+                <a-icon v-if="!loading" name="plus" :size="17" class="me-1" />
+                {{loading?'处理中':'新增记录'}}
+            </el-button>
+            <el-button @click="submit">
+                <a-icon name="download" :size="17" class="me-1" />
+                导出数据
+            </el-button>
+            <el-button disabled>不可用</el-button>
+        </div>
+    </a-panel>
+    <a-panel title="按钮组">
+        <el-button-group>
+            <el-button @click="submit">上一页</el-button>
+            <el-button @click="submit">下一页</el-button>
+        </el-button-group>
+    </a-panel>
+</div>

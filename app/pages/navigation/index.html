@@ -1,0 +1,56 @@
+<div>
+    <a-page-header category="组件中心" title="多级菜单" description="递归导航、手风琴、选中状态与路径联动" />
+    <a-panel title="横向导航与面包屑" description="顶部导航切换和层级路径展示">
+        <el-menu v-model:default-active="horizontalActive" mode="horizontal" :ellipsis="false">
+            <el-menu-item index="overview">概览</el-menu-item>
+            <el-menu-item index="projects">项目</el-menu-item>
+            <el-sub-menu index="management">
+                <template #title>管理</template>
+                <el-menu-item index="members">成员</el-menu-item>
+                <el-menu-item index="settings">设置</el-menu-item>
+            </el-sub-menu>
+        </el-menu>
+        <el-breadcrumb separator="/" class="mt-3">
+            <el-breadcrumb-item>工作空间</el-breadcrumb-item>
+            <el-breadcrumb-item>{{horizontalActive}}</el-breadcrumb-item>
+        </el-breadcrumb>
+    </a-panel>
+    <div class="demo-component-grid">
+        <a-panel title="三级导航 · 实时示例" description="展开父菜单，点击子菜单查看右侧路径">
+            <div class="demo-nav-options">
+                <el-switch v-model="accordion" aria-label="手风琴模式" />
+                <span>手风琴模式</span>
+            </div>
+            <div class="demo-menu-sample">
+                <a-menu :items="items" :active="active" :accordion="accordion" label="多级菜单示例" @navigate="active=$event" />
+            </div>
+        </a-panel>
+        <div>
+            <a-panel title="当前选中路径">
+                <div class="demo-menu-trail">
+                    <template v-for="(title,i) in trail">
+                        <span v-if="i">/</span>
+                        <strong>{{title}}</strong>
+                    </template>
+                </div>
+                <p class="demo-doc-text">
+                    路由：
+                    <code>{{active}}</code>
+                </p>
+                <div class="demo-button-row">
+                    <el-button @click="active='/sample/security/audit'">
+                        定位到三级菜单
+                    </el-button>
+                    <el-button @click="active='/sample/team/members'">
+                        返回成员列表
+                    </el-button>
+                </div>
+                <p class="demo-doc-text mb-0">
+                    从外部修改 active
+                    时自动展开祖先菜单；手动收起不会修改当前选中项。默认只展开同层一个分支，也可关闭手风琴模式。
+                </p>
+            </a-panel>
+            <a-panel title="配置与使用"><a-code :code="code" /></a-panel>
+        </div>
+    </div>
+</div>

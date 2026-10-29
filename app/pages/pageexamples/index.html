@@ -1,0 +1,13 @@
+<div>
+    <a-page-header title="页面示例" category="页面" description="登录、注册及常见状态页面" />
+    <div class="page-example-grid">
+        <a v-for="page in pages" class="page-example-card" :href="'app/pages/standalone/pages.html?type='+page.type" target="_blank" rel="noopener">
+            <span class="page-example-icon">
+                <a-icon :name="page.type==='login'?'user':page.type==='register'?'plus':'file'" />
+            </span>
+            <strong>{{page.title}}</strong>
+            <p>{{page.desc}}</p>
+            <span class="page-example-link">打开页面 →</span>
+        </a>
+    </div>
+</div>

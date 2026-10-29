@@ -103,6 +103,10 @@
             component: key === 'table' ? D.TableExamples : catalog.build(key),
         });
     }
+    // 已拆分模板的页面按需加载；原生组件和内联模板仍可直接注册。
+    for (const route of routes) {
+        route.component = AdminUI.createPage(route.component);
+    }
     async function start() {
         const menus = await AdminUI.request('app/mock/menus.json');
         if (!Array.isArray(menus)) throw new Error('菜单数据格式错误');

@@ -1,0 +1,148 @@
+<div>
+    <div class="demo-welcome">
+        <div>
+            <div class="demo-eyebrow">OVERVIEW</div>
+            <h1>工作台</h1>
+            <p>欢迎回来，Alex。查看关键指标、项目进展与最近动态。</p>
+        </div>
+        <div class="demo-welcome-actions">
+            <el-button @click="exportReport">
+                <a-icon name="download" :size="14" class="me-1" />
+                导出演示报表
+            </el-button>
+            <el-button type="primary" @click="ws.open('/forms')">
+                <a-icon name="plus" :size="15" class="me-1" />
+                创建新项目
+            </el-button>
+        </div>
+    </div>
+    <el-alert v-if="dashboardError" :title="dashboardError" type="error" :closable="false" class="mb-3">
+        <el-button size="small" @click="loadDashboard">重试</el-button>
+    </el-alert>
+    <div class="demo-stats">
+        <a-stat-card v-for="stat in stats" :key="stat.label" v-bind="stat" />
+    </div>
+    <div class="demo-grid-main">
+        <a-panel title="访问趋势" description="了解每一次增长，发现新的可能" class="demo-chart-panel">
+            <template #actions>
+                <div class="demo-chart-period">
+                    <button v-for="p in ['本周','本月','全年']" :class="{'is-active':period===p}" @click="period=p">
+                        {{p}}
+                    </button>
+                </div>
+            </template>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="demo-chart-summary">
+                    <strong>{{totals[period] || '—'}}</strong>
+                    <span>↗ 18.6%</span>
+                </div>
+                <div class="demo-chart-legend">
+                    <span>
+                        <i></i>
+                        本期
+                    </span>
+                    <span>
+                        <i></i>
+                        上期
+                    </span>
+                </div>
+            </div>
+            <div class="demo-chart-wrap" role="img" :aria-label="period+'演示访问趋势'">
+                <svg class="demo-chart" aria-hidden="true" viewBox="0 0 650 245" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="visit-fill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#5f8bff" stop-opacity=".19" />
+                            <stop offset="100%" stop-color="#5f8bff" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                    <g v-for="(label,i) in ['20k','15k','10k','5k','0']">
+                        <path class="grid" :d="'M40,'+(28+i*43)+'H620'" />
+                    </g>
+                    <path d="M46 175L88 170L130 182L172 150L214 158L256 135L298 147L340 115L382 136L424 102L466 121L508 92L550 116L592 84" fill="none" stroke="#b6cbf8" stroke-width="2" stroke-dasharray="4 5" />
+                    <path :d="area" fill="url(#visit-fill)" />
+                    <path :d="line" fill="none" stroke="#527ff6" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" />
+                </svg>
+                <span v-for="(label,i) in ['20k','15k','10k','5k','0']" class="demo-chart-y-label" :style="{top:((28+i*43)/245*100)+'%'}">
+                    {{label}}
+                </span>
+                <span v-for="(label,i) in ['周一','周二','周三','周四','周五','周六','周日']" class="demo-chart-x-label" :style="{left:((46+i*91)/650*100)+'%'}">
+                    {{period==='全年'?(i*2+1)+'月':period==='本月'?(i*4+1)+'日':label}}
+                </span>
+            </div>
+        </a-panel>
+        <a-panel title="快捷入口" description="让常用功能触手可及">
+            <template #actions>
+                <span class="demo-live">
+                    <span class="aui-status-dot"></span>
+                    就绪
+                </span>
+            </template>
+            <div class="demo-shortcuts">
+                <button v-for="s in shortcuts" class="demo-shortcut" @click="ws.open(s.path)">
+                    <span><a-icon :name="s.icon" :size="19" /></span>
+                    {{s.title}}
+                </button>
+            </div>
+            <div class="demo-note">
+                <a-icon name="layers" :size="22" />
+                <div>
+                    <strong>为下一次创造，准备就绪</strong>
+                    <p>轻量、统一、可扩展的后台开发起点。</p>
+                    <a href="#/docs" @click.prevent="ws.open('/docs')">
+                        了解 AdminUI
+                        <a-icon name="arrow" :size="12" />
+                    </a>
+                </div>
+            </div>
+        </a-panel>
+    </div>
+    <div class="demo-bottom-grid">
+        <a-panel title="最近项目" description="把注意力留给重要的事">
+            <template #actions>
+                <el-button text type="primary" @click="ws.open('/forms')">
+                    新建项目
+                    <a-icon name="arrow" :size="13" />
+                </el-button>
+            </template>
+            <div v-for="project in projects" class="demo-project">
+                <span class="demo-project-icon">
+                    <a-icon :name="project.icon" :size="18" />
+                </span>
+                <div>
+                    <strong>{{project.title}}</strong>
+                    <small>{{project.desc}}</small>
+                </div>
+                <div class="demo-project-progress">
+                    <p>{{project.progress}}%</p>
+                    <div class="demo-progress-track">
+                        <i :style="{width:project.progress+'%'}"></i>
+                    </div>
+                </div>
+                <span class="demo-pill" :class="{'is-draft':project.progress!==100}">
+                    {{project.status}}
+                </span>
+            </div>
+        </a-panel>
+        <a-panel title="工作动态">
+            <template #actions><span class="demo-live">演示数据</span></template>
+            <ol class="demo-timeline">
+                <li>
+                    <p>
+                        组件库
+                        <strong>v0.2.0</strong>
+                        已准备就绪
+                    </p>
+                    <small>刚刚 · 系统动态</small>
+                </li>
+                <li>
+                    <p>表单组件新增校验与自定义插槽</p>
+                    <small>30 分钟前 · 产品更新</small>
+                </li>
+                <li>
+                    <p>欢迎加入 AdminUI 工作空间</p>
+                    <small>今天 09:00 · 团队动态</small>
+                </li>
+            </ol>
+        </a-panel>
+    </div>
+</div>

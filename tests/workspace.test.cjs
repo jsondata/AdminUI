@@ -299,13 +299,18 @@ test('all library and demo templates compile with the bundled Vue compiler', () 
             'reports',
             'pageexamples',
             'settings',
-            'docs-overview',
-        ].map((name) => `app/pages/${name}.js`),
-        ...['navigation', 'catalog-more', 'catalog-advanced', 'catalog', 'table-examples'].map(
+            'navigation',
+            'buttons',
+            'icons',
+            'selects',
+            'table',
+        ].map((name) => `app/pages/${name}/index.js`),
+        'app/pages/docs/overview.js',
+        ...['catalog-more', 'catalog-advanced', 'catalog'].map(
             (name) => `app/components/${name}.js`,
         ),
-        'app/pages/charts.js',
-        'app/pages/docs.js',
+        'app/pages/charts/index.js',
+        'app/pages/docs/index.js',
     ]) {
         vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), h.context);
     }
@@ -318,7 +323,12 @@ test('all library and demo templates compile with the bundled Vue compiler', () 
         ...h.context.AdminUIPages,
         ...examples,
     })) {
-        if (!component || typeof component !== 'object' || !component.template) continue;
+        if (
+            !component ||
+            typeof component !== 'object' ||
+            (!component.template && !component.templateUrl)
+        )
+            continue;
         if (component.components)
             for (const child of Object.values(component.components))
                 if (child.template)
@@ -331,6 +341,10 @@ test('all library and demo templates compile with the bundled Vue compiler', () 
                 () => h.context.Vue.compile(component.template),
                 name + ' template',
             );
+        if (component.templateUrl) {
+            const template = fs.readFileSync(path.join(root, component.templateUrl), 'utf8');
+            assert.doesNotThrow(() => h.context.Vue.compile(template), name + ' template');
+        }
     }
 });
 
@@ -437,6 +451,7 @@ test('demo menu JSON points to registered routes', async () => {
     const options = await new Promise((resolve) => {
         h.context.AdminUI = {
             request: async () => menus,
+            createPage: (component) => component,
             createApp: (config) => {
                 resolve(config);
                 return { mount() {} };
@@ -585,4 +600,45 @@ test('application entry and menu local resources resolve after directory organiz
         }
     }
     check(menus);
+});
+
+test('page templates display an error and can be retried', async () => {
+    let mounted;
+    let beforeUnmount;
+    let calls = 0;
+    const context = {
+        Vue: {
+            ref: (value) => ({ value }),
+            shallowRef: (value) => ({ value }),
+            onMounted: (fn) => {
+                mounted = fn;
+            },
+            onBeforeUnmount: (fn) => {
+                beforeUnmount = fn;
+            },
+            h: (tag, props, children) => ({ tag, props, children }),
+        },
+        AdminUI: {
+            request: async (url, options) => {
+                calls++;
+                assert.equal(url, 'app/pages/sample.html');
+                assert.equal(options.responseType, 'text');
+                if (calls === 1) throw new Error('HTTP 404');
+                return '<div>页面内容</div>';
+            },
+        },
+    };
+    context.window = context;
+    vm.createContext(context);
+    vm.runInContext(fs.readFileSync(path.join(root, 'app/utils/page-loader.js'), 'utf8'), context);
+    const source = { name: 'Sample', templateUrl: 'app/pages/sample.html' };
+    const render = context.AdminUI.createPage(source).setup({}, { attrs: {}, slots: {} });
+    await mounted();
+    const errorView = render();
+    assert.equal(errorView.props.role, 'alert');
+    assert.match(errorView.children[0].props, /HTTP 404/);
+    await errorView.children[1].props.onClick();
+    assert.equal(render().tag.template, '<div>页面内容</div>');
+    assert.equal(source.template, undefined);
+    beforeUnmount();
 });

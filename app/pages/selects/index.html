@@ -1,0 +1,40 @@
+<div>
+    <a-page-header category="基础组件" title="下拉选择" description="单选、多选、搜索与禁用状态" />
+    <div class="demo-component-grid">
+        <a-panel title="单选与搜索">
+            <label for="demo-select-role" class="form-label">成员角色</label>
+            <el-select id="demo-select-role" v-model="role" filterable clearable placeholder="请选择角色">
+                <el-option v-for="item in options" :label="item.label" :value="item.value" />
+            </el-select>
+            <p class="demo-doc-text mt-3 mb-0">
+                当前值：
+                <code>{{role||'未选择'}}</code>
+            </p>
+        </a-panel>
+        <a-panel title="多选">
+            <label for="demo-select-members" class="form-label">项目成员</label>
+            <el-select id="demo-select-members" v-model="members" multiple filterable placeholder="请选择成员">
+                <el-option label="林然" value="lin" />
+                <el-option label="周晴" value="zhou" />
+                <el-option label="许知远" value="xu" />
+            </el-select>
+            <p class="demo-doc-text mt-3 mb-0">已选择 {{members.length}} 位成员</p>
+        </a-panel>
+        <a-panel title="禁用与选项分组">
+            <div class="demo-nav-options">
+                <el-switch v-model="disabled" aria-label="禁用选择器" />
+                <span>禁用选择器</span>
+            </div>
+            <el-select v-model="role" :disabled="disabled" aria-label="分组角色">
+                <el-option-group label="管理团队">
+                    <el-option label="管理员" value="admin" />
+                    <el-option label="编辑" value="editor" />
+                </el-option-group>
+                <el-option-group label="普通成员">
+                    <el-option label="普通成员" value="member" />
+                    <el-option label="不可选择的角色" value="locked" disabled />
+                </el-option-group>
+            </el-select>
+        </a-panel>
+    </div>
+</div>

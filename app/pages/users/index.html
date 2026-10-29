@@ -1,0 +1,172 @@
+<div>
+    <a-page-header title="用户管理" category="业务示例" description="完整的筛选、分页与本地增删改查">
+        <el-button @click="exportRows">
+            <a-icon name="download" :size="14" class="me-1" />
+            导出
+        </el-button>
+        <el-button type="primary" :disabled="loadingUsers || (!seedReady && !rows.length)" @click="edit()">
+            <a-icon name="plus" :size="15" class="me-1" />
+            新增用户
+        </el-button>
+    </a-page-header>
+    <a-panel>
+        <a-filter-bar class="demo-user-filters" :class="{'is-expanded':filtersExpanded}" @search="search" @reset="reset">
+            <div>
+                <label for="user-keyword">用户关键词</label>
+                <el-input id="user-keyword" v-model="keyword" placeholder="搜索姓名或邮箱" clearable />
+            </div>
+            <div>
+                <label for="user-role">角色</label>
+                <el-select id="user-role" v-model="role" placeholder="全部角色" clearable>
+                    <el-option v-for="r in ['管理员','编辑','成员']" :label="r" :value="r" />
+                </el-select>
+            </div>
+            <div>
+                <label for="user-status">状态</label>
+                <el-select id="user-status" v-model="status" placeholder="全部状态" clearable>
+                    <el-option label="正常" value="正常" />
+                    <el-option label="停用" value="停用" />
+                </el-select>
+            </div>
+            <div>
+                <label for="filter-department">部门</label>
+                <el-input id="filter-department" v-model="filters.department" placeholder="输入部门" clearable />
+            </div>
+            <div>
+                <label for="filter-position">职位</label>
+                <el-input id="filter-position" v-model="filters.position" placeholder="输入职位" clearable />
+            </div>
+            <div>
+                <label for="filter-location">所在地</label>
+                <el-input id="filter-location" v-model="filters.location" placeholder="输入所在地" clearable />
+            </div>
+            <div>
+                <label for="filter-phone">手机号</label>
+                <el-input id="filter-phone" v-model="filters.phone" placeholder="输入手机号" clearable />
+            </div>
+            <div>
+                <label for="filter-id">用户 ID</label>
+                <el-input id="filter-id" v-model="filters.id" placeholder="输入用户 ID" clearable />
+            </div>
+            <div>
+                <label for="filter-email">邮箱</label>
+                <el-input id="filter-email" v-model="filters.email" placeholder="输入邮箱" clearable />
+            </div>
+            <div>
+                <label for="filter-dateFrom">加入日期起</label>
+                <el-input id="filter-dateFrom" v-model="filters.dateFrom" placeholder="选择开始日期" clearable type="date" />
+            </div>
+            <div>
+                <label for="filter-dateTo">加入日期止</label>
+                <el-input id="filter-dateTo" v-model="filters.dateTo" placeholder="选择结束日期" clearable type="date" />
+            </div>
+            <div>
+                <label for="filter-lastLogin">最近登录</label>
+                <el-input id="filter-lastLogin" v-model="filters.lastLogin" placeholder="选择登录日期" clearable type="date" />
+            </div>
+            <template #actions>
+                <button type="button" class="demo-filter-toggle" :aria-expanded="filtersExpanded" @click="filtersExpanded=!filtersExpanded">
+                    {{filtersExpanded?'收起':'展开'}}
+                    <a-icon name="chevron" :size="14" :class="{'is-expanded':filtersExpanded}" />
+                </button>
+            </template>
+        </a-filter-bar>
+    </a-panel>
+    <el-alert v-if="dataError" :title="dataError" type="error" :closable="false" class="mb-3">
+        <el-button size="small" @click="loadUsers">重试</el-button>
+    </el-alert>
+    <a-panel class="demo-table-panel">
+        <div class="demo-list-toolbar">
+            <div class="demo-list-toolbar-start">
+                <h2>用户列表</h2>
+                <div class="demo-batch-actions">
+                    <el-select v-model="batchAction" size="small" placeholder="选择操作" aria-label="选择批量操作" popper-class="demo-batch-dropdown">
+                        <el-option label="启用" value="enable">
+                            <span class="demo-batch-option">
+                                <a-icon name="check" :size="15" />
+                                <span>启用</span>
+                            </span>
+                        </el-option>
+                        <el-option label="停用" value="disable">
+                            <span class="demo-batch-option">
+                                <a-icon name="close" :size="15" />
+                                <span>停用</span>
+                            </span>
+                        </el-option>
+                        <el-option label="删除" value="delete">
+                            <span class="demo-batch-option is-danger">
+                                <a-icon name="trash" :size="15" />
+                                <span>删除</span>
+                            </span>
+                        </el-option>
+                    </el-select>
+                    <el-button size="small" :disabled="!selected.length || !batchAction" @click="runBatch">
+                        批量操作
+                    </el-button>
+                    <small>已选择 {{selected.length}} 条</small>
+                </div>
+            </div>
+            <el-button size="small" text :disabled="!seedReady || loadingUsers" @click="restore">
+                恢复演示数据
+            </el-button>
+        </div>
+        <a-table :rows="visible" :columns="columns" :loading="loadingUsers" :total="filtered.length" v-model:page="page" v-model:page-size="pageSize" :page-sizes="[8,10,20,50]" :pager-count="5" selectable @selection-change="selected=$event">
+            <template #person="{row}">
+                <div class="demo-person">
+                    <span class="demo-avatar">{{row.name.slice(0,1)}}</span>
+                    <div>
+                        <strong>{{row.name}}</strong>
+                        <small>{{row.email}}</small>
+                    </div>
+                </div>
+            </template>
+            <template #role="{value}"><span>{{value}}</span></template>
+            <template #status="{value}">
+                <span class="demo-pill" :class="{'is-paused':value==='停用'}">
+                    <span class="aui-status-dot" v-if="value==='正常'"></span>
+                    {{value}}
+                </span>
+            </template>
+            <template #actions="{row}">
+                <div class="demo-table-actions">
+                    <el-button size="small" type="primary" plain @click="edit(row)">
+                        <a-icon name="edit" :size="14" />
+                        编辑
+                    </el-button>
+                    <el-button size="small" type="danger" plain @click="remove([row.id])">
+                        <a-icon name="trash" :size="14" />
+                        删除
+                    </el-button>
+                    <el-dropdown trigger="click" @command="rowCommand($event,row)">
+                        <el-button size="small">
+                            更多
+                            <a-icon name="chevron" :size="13" class="demo-more-arrow" />
+                        </el-button>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item command="details">
+                                    查看详情
+                                </el-dropdown-item>
+                                <el-dropdown-item command="status">
+                                    {{row.status==='正常'?'停用用户':'启用用户'}}
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+                </div>
+            </template>
+        </a-table>
+        <template #footer>
+            所有记录均为演示数据，仅保存在当前浏览器，不关联真实账号或权限。
+        </template>
+    </a-panel>
+    <el-dialog v-model="dialog" :title="model.id?'编辑用户':'新增用户'" class="demo-user-dialog" width="min(480px,92vw)" destroy-on-close>
+        <template #header>
+            <div class="demo-user-dialog-heading">
+                <strong>{{model.id?'编辑用户':'新增用户'}}</strong>
+                <span>填写用户的基本信息和访问状态</span>
+            </div>
+        </template>
+        <a-form :model="model" :fields="fields" :rules="rules" :loading="saving" label-width="70px" @submit="save" @cancel="dialog=false" />
+    </el-dialog>
+</div>
