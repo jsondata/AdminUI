@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AdminUI · 最小接入示例</title><link rel="stylesheet" href="../vendor/tabler/tabler.min.css"><link rel="stylesheet" href="../vendor/element-plus/index.css"><link rel="stylesheet" href="../src/admin-ui.css"></head><body><div id="app" v-cloak></div><script src="../vendor/vue/vue.global.prod.js"></script><script src="../vendor/element-plus/index.full.min.js"></script><script src="../vendor/element-plus/zh-cn.min.js"></script><script src="../src/admin-ui.js"></script><script>
+const Home = {
+  setup() { return { workspace: AdminUI.useWorkspace() }; },
+  template: `<div><a-page-header title="我的第一个后台" category="开始" description="这个文件可以直接复制到你的项目"/><a-panel title="欢迎使用 AdminUI"><p>你已经拥有完整的布局、多标签、搜索和主题切换。</p><el-button type="primary" @click="workspace.open('/about')">打开另一个页面</el-button></a-panel></div>`
+};
+const About = { template: '<a-panel title="接下来做什么？"><p>注册你的 Vue 页面组件，配置菜单，再接入自己的后端接口即可。</p><a href="../index.html#/docs">阅读完整文档</a></a-panel>' };
+AdminUI.createApp({
+  brand: { name: 'My Admin', subtitle: 'POWERED BY ADMINUI' },
+  user: { name: '开发者', role: '本地示例' },
+  storageKey: 'adminui.starter',
+  home: '/home',
+  routes: [
+    { path: '/home', title: '首页', icon: 'grid', component: Home },
+    { path: '/about', title: '关于', icon: 'book', component: About }
+  ],
+  menus: [{ title: '工作空间', items: [
+    { path: '/home', title: '首页', icon: 'grid' },
+    { path: '/about', title: '关于', icon: 'book' }
+  ] }]
+}).mount('#app');
+</script></body></html>
