@@ -17,10 +17,14 @@ python3 -m http.server 8300 --bind 127.0.0.1
 - `index.html`：完整演示站，包含工作台、独立数据报表与页面示例入口。
 - `examples/starter.html`：带布局、多标签和路由的最小应用。
 - `examples/components.html`：在已有页面中独立使用组件。
+- `examples/integration.html`：混用 AdminUI、Vue、Element Plus、Tabler 和本地数据的完整示例。
+- `examples/backend.html`：本地模拟登录、401 和上传接入示例；需运行 `python3 examples/mock_server.py`。模拟服务只用于本地开发。
+- `docs/组件与接入.md`：组件 API、原生组件混用及业务接入说明。
+- `docs/维护与发布.md`：轻量发行、依赖更新和验证流程。
 - `examples/pages.html?type=login`、`register`、`403`、`404`、`500`、`502`：独立页面示例。登录和注册只做本地表单校验，需自行接入认证接口；错误页面的 HTTP 状态码和错误路由需由服务器配置。
 - `src/admin-ui.js`：12 个组件、工作区导航、请求工具。
 - `src/admin-ui.css`：主题变量、组件与响应式布局。
-- `demo/`：演示业务代码和样式；不属于必须复制的库文件。组件中心还包含栅格、表单、日期、弹层、表格、分页、上传、树、穿梭框、颜色、滑块、评分、轮播和加载等交互示例。
+- `demo/`：演示业务代码和样式；`demo/data/` 包含菜单、用户、工作台、报表与图表的本地 JSON；不属于必须复制的库文件。组件中心还包含栅格、表单、日期、弹层、表格、分页、上传、树、穿梭框、颜色、滑块、评分、轮播和加载等交互示例。
 - `vendor/`：上游发行文件与许可证。
 - `tests/`：无需安装依赖的 Node 回归测试，仅开发验收使用。
 
@@ -168,11 +172,11 @@ const rules = { title: [{ required: true, message: '请填写标题', trigger: '
 - `active`、`opened`、`current`、`tabs`、`collapsed`、`mobileOpen`、`theme` 为 Vue Ref。
 - `start()` / `stop()`：注册/释放浏览器事件；createApp 的根组件会自动调用。
 
-Hash 路由与浏览器前进/返回同步。当前版本使用精确 path 匹配，不依赖 Vue Router；动态路由、URL 参数解析和复杂离开守卫可按项目需要扩展。routes 是允许的页面列表，关闭标签不会注销路由。
+Hash 路由与浏览器前进/返回同步，支持 `/projects/:id` 形式的单段参数和查询参数，不依赖 Vue Router。`current.value.params`、`current.value.query` 获取参数；可选 `beforeNavigate(to, from)` 同步返回 false 阻止跳转或关闭当前标签。相同路由不同参数视为不同标签。动态多级通配、异步守卫及重定向未实现。routes 是允许的页面列表，关闭标签不会注销路由。可选 `canAccess(route)` 在工作区创建时筛选路由和内部菜单，详细边界见组件与接入指南。
 
 标签用 sessionStorage 保存，主题用 localStorage 保存。storageKey 必须为不同应用/用户设置独立名称。浏览器存储不可用时退化为当前会话内存状态。
 
-最多缓存 20 个页面组件，超出由 Vue KeepAlive 淘汰。关闭标签目前只关闭导航记录，不立即销毁缓存实例；刷新当前页通过新的实例 key 重建。在业务页面中用 onActivated/onDeactivated 管理轮询、长任务和订阅；机密数据清理与离开确认由业务应用实现。退出账户时应卸载应用并清理其存储键。
+已打开的标签各自缓存页面实例；关闭标签时销毁对应缓存，刷新只重建当前页面。标签数量没有固定上限，打开大量页面会增加内存占用。在业务页面中用 onActivated/onDeactivated 管理轮询、长任务和订阅；机密数据清理与离开确认由业务应用实现。退出账户时应卸载应用并清理其存储键。
 
 ## 主题与响应式
 
@@ -203,6 +207,8 @@ const data = await AdminUI.request('/api/users?page=1', {
 });
 ```
 
+`AdminUI.createRequestClient()` 可选配置请求、响应和错误钩子；详见组件与接入指南。
+
 基于 fetch，默认同源凭据、15 秒超时、JSON 响应。非 2xx 抛出包含状态码的 Error，204 返回 null。`responseType:'text'` 可读取文本。支持调用方 AbortSignal。不会猜测 code/data 等业务协议，也不会自动做身份续期、重试或错误弹窗。
 
 ## 验证与边界
@@ -213,7 +219,7 @@ node --check src/admin-ui.js
 node --check demo/pages.js
 ```
 
-Node 仅用于无依赖测试，不是运行或构建依赖。页面交互仍须浏览器验收。示例用户的新增/编辑/删除仅写当前浏览器 localStorage；“恢复演示数据”可恢复。首页指标、图表、项目和动态全部是静态演示。
+Node 仅用于无依赖测试，不是运行或构建依赖。页面交互仍须浏览器验收。菜单、用户初始数据、工作台、报表和图表示例通过本地 JSON 请求加载。示例用户的新增/编辑/删除仅写当前浏览器 localStorage，已有数据优先于 JSON；“恢复演示数据”会使用 users.json 重置。修改 JSON 后刷新即可；切换到真实接口时需自行处理权限与数据协议。首页部分文案和时间线仍为静态演示。
 
 这是可继续扩展的首版 UI 库，不是完整商业后台产品。没有真实登录、后端授权、支付、服务端上传服务、可视化拖拽表单或多语言业务系统。菜单可见性不构成授权。服务端需实现权限、校验、CSRF 和审计。Vue 浏览器模板编译器需要允许动态函数编译的 CSP；严格禁止 unsafe-eval 的项目应改用预编译方案。代码复制需要 HTTPS 或 localhost；普通 file:// 环境可能受浏览器限制。
 

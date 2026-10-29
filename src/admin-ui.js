@@ -181,39 +181,85 @@
     template: `<nav class="aui-menu" :aria-label="label"><a-menu-branch :items="items" :active="active" :expanded="expanded" :level="0" :prefix="prefix" :accordion="accordion" :collapsed="collapsed" @navigate="$emit('navigate',$event)" @expand="$emit('expand')"/></nav>`
   };
   function createWorkspace(options) {
-    const routes = options.routes || [];
-    if (!routes.length) throw new Error('AdminUI: routes 不能为空');
-    if (new Set(routes.map(r => r.path)).size !== routes.length) throw new Error('AdminUI: route.path 不可重复');
-    const home = options.home || routes[0].path;
-    if (!routes.some(r => r.path === home)) throw new Error('AdminUI: home 必须在 routes 中注册');
+    const allRoutes = options.routes || [];
+    if (!allRoutes.length) throw new Error('AdminUI: routes 不能为空');
+    if (new Set(allRoutes.map(r => r.path)).size !== allRoutes.length) throw new Error('AdminUI: route.path 不可重复');
+    const home = options.home || allRoutes[0].path;
+    if (!allRoutes.some(r => r.path === home)) throw new Error('AdminUI: home 必须在 routes 中注册');
+    // Optional synchronous route filtering occurs once, before the workspace starts.
+    const routes = options.canAccess ? allRoutes.filter(route => options.canAccess(route) === true) : allRoutes;
+    if (!routes.some(r => r.path === home)) throw new Error('AdminUI: home 必须允许访问');
+    function accessibleMenus(items) {
+      return items.flatMap(item => {
+        const children = menuChildren(item);
+        if (children.length) {
+          const visible = accessibleMenus(children);
+          if (!visible.length) return [];
+          return [{ ...item, ...(item.children ? {children:visible} : {items:visible}) }];
+        }
+        return item.href || find(item.path) ? [item] : [];
+      });
+    }
+    const menus = options.canAccess ? accessibleMenus(options.menus || []) : options.menus || [];
     const storageKey = options.storageKey || 'adminui.workspace';
-    const find = path => routes.find(route => route.path === path);
-    const readHash = () => { try { return decodeURIComponent(location.hash.slice(1)); } catch (_) { return ''; } };
-    const saved = (() => { try { const value = JSON.parse(sessionStorage.getItem(storageKey)); return Array.isArray(value) ? [...new Set(value.filter(path => find(path)))] : null; } catch (_) { return null; } })();
-    const initial = find(readHash()) ? readHash() : home;
+    function normalize(path) {
+      if (typeof path !== 'string') return '';
+      const split = path.indexOf('?');
+      try {
+        const pathname = decodeURI(split < 0 ? path : path.slice(0, split));
+        const query = split < 0 ? '' : new URLSearchParams(path.slice(split + 1)).toString();
+        return pathname + (query ? '?' + query : '');
+      } catch (_) { return ''; }
+    }
+    function find(path) {
+      if (typeof path !== 'string') return undefined;
+      const split = path.indexOf('?'), pathname = split < 0 ? path : path.slice(0, split);
+      const route = routes.find(item => item.path === pathname) || routes.find(item => {
+        const pattern = item.path.split('/'), parts = pathname.split('/');
+        return pattern.length === parts.length && pattern.every((segment, i) => segment[0] === ':' ? !!parts[i] : segment === parts[i]);
+      });
+      if (!route) return undefined;
+      const params = {};
+      try { route.path.split('/').forEach((segment, i) => { if (segment[0] === ':') params[segment.slice(1)] = decodeURIComponent(pathname.split('/')[i]); }); } catch (_) { return undefined; }
+      const query = Object.create(null);
+      new URLSearchParams(split < 0 ? '' : path.slice(split + 1)).forEach((value, key) => { if (Object.prototype.hasOwnProperty.call(query, key)) query[key] = Array.isArray(query[key]) ? [...query[key], value] : [query[key], value]; else query[key] = value; });
+      return { ...route, path, routePath:route.path, params, query };
+    }
+    const readHash = () => normalize(location.hash.slice(1));
+    const hashFor = path => '#' + encodeURI(path).replace(/%25([0-9a-f]{2})/gi, '%$1');
+    function permitted(to, from) {
+      if (!options.beforeNavigate || to === from) return true;
+      const result = options.beforeNavigate(find(to), from ? find(from) : null);
+      if (result && typeof result.then === 'function') throw new Error('AdminUI: beforeNavigate 必须同步返回');
+      return result !== false;
+    }
+    const saved = (() => { try { const value = JSON.parse(sessionStorage.getItem(storageKey)); return Array.isArray(value) ? [...new Set(value.map(normalize).filter(path => find(path)))] : null; } catch (_) { return null; } })();
+    const initialPath = find(readHash()) ? readHash() : home;
+    const initial = initialPath === home || permitted(initialPath, null) ? initialPath : home;
     const initialTabs = saved || [initial];
     if (initial !== home && !initialTabs.includes(initial)) initialTabs.push(initial);
-    const active = ref(initial), opened = ref(initialTabs), refreshKey = ref(0);
+    const active = ref(initial), opened = ref(initialTabs), refreshKey = ref(0), revisions = reactive({});
     const current = computed(() => find(active.value));
     const tabs = computed(() => opened.value.map(find).filter(Boolean));
     const collapsed = ref(false), mobileOpen = ref(false), theme = ref('light');
     try { theme.value = localStorage.getItem(storageKey + '.theme') === 'dark' ? 'dark' : 'light'; } catch (_) {}
     const persist = () => { try { sessionStorage.setItem(storageKey, JSON.stringify(opened.value)); } catch (_) {} };
-    function open(path) { if (!find(path)) return false; if (!opened.value.includes(path)) opened.value = [...opened.value, path]; active.value = path; mobileOpen.value = false; persist(); if (readHash() !== path) location.hash = encodeURI(path); return true; }
+    function open(path) { path = normalize(path); if (!find(path) || !permitted(path, active.value)) return false; if (!opened.value.includes(path)) opened.value = [...opened.value, path]; active.value = path; mobileOpen.value = false; persist(); if (readHash() !== path) location.hash = hashFor(path); return true; }
     function close(paths) {
-      const closing = Array.isArray(paths) ? paths : [paths];
+      const closing = (Array.isArray(paths) ? paths : [paths]).map(normalize);
       const before = opened.value, remaining = before.filter(path => !closing.includes(path));
-      if (closing.includes(active.value)) { const index = before.indexOf(active.value); const next = before.slice(index + 1).find(path => !closing.includes(path)) || [...before.slice(0, index)].reverse().find(path => !closing.includes(path)); active.value = next || home; location.hash = encodeURI(active.value); }
-      opened.value = remaining; persist();
+      if (closing.includes(active.value)) { const index = before.indexOf(active.value); const next = before.slice(index + 1).find(path => !closing.includes(path)) || [...before.slice(0, index)].reverse().find(path => !closing.includes(path)) || home; if (!permitted(next, active.value)) return false; active.value = next; location.hash = hashFor(active.value); }
+      opened.value = remaining; closing.forEach(path => { delete revisions[path]; }); persist(); return true;
     }
-    function closeRange(path, side) { const index = opened.value.indexOf(path); if (index < 0) return; close(side === 'left' ? opened.value.slice(0, index) : side === 'right' ? opened.value.slice(index + 1) : [...opened.value]); }
-    function sync() { const path = readHash(); if (!find(path)) { active.value = home; history.replaceState(null, '', '#' + encodeURI(home)); return; } if (path !== active.value) open(path); }
+    function closeRange(path, side) { path = normalize(path); const index = opened.value.indexOf(path); if (index < 0 || !['left', 'right', 'all'].includes(side)) return false; return close(side === 'left' ? opened.value.slice(0, index) : side === 'right' ? opened.value.slice(index + 1) : [...opened.value]); }
+    function sync() { const path = readHash(), target = find(path) ? path : home; if (target !== active.value && !open(target)) { history.replaceState(null, '', hashFor(active.value)); return; } if (!find(path)) history.replaceState(null, '', hashFor(target)); }
     function applyTheme() { document.documentElement.setAttribute('data-bs-theme', theme.value); document.documentElement.classList.toggle('dark', theme.value === 'dark'); try { localStorage.setItem(storageKey + '.theme', theme.value); } catch (_) {} }
     function toggleTheme() { theme.value = theme.value === 'dark' ? 'light' : 'dark'; applyTheme(); }
-    function refresh() { refreshKey.value++; }
-    function start() { window.addEventListener('hashchange', sync); applyTheme(); if (!find(readHash())) history.replaceState(null, '', '#' + encodeURI(initial)); persist(); }
+    function refresh() { refreshKey.value++; revisions[active.value] = (revisions[active.value] || 0) + 1; }
+    function keyFor(path) { return path + ':' + (revisions[path] || 0); }
+    function start() { window.addEventListener('hashchange', sync); applyTheme(); if (readHash() !== initial) history.replaceState(null, '', hashFor(initial)); persist(); }
     function stop() { window.removeEventListener('hashchange', sync); }
-    return { routes, menus: options.menus || [], brand: options.brand || { name: 'AdminUI', subtitle: '让后台开发更从容' }, user: options.user || { name: 'Admin', role: '管理员' }, home, active, opened, current, tabs, refreshKey, collapsed, mobileOpen, theme, open, close, closeRange, refresh, toggleTheme, start, stop };
+    return { routes, menus, brand: options.brand || { name: 'AdminUI', subtitle: '让后台开发更从容' }, user: options.user || { name: 'Admin', role: '管理员' }, home, active, opened, current, tabs, refreshKey, collapsed, mobileOpen, theme, open, close, closeRange, refresh, keyFor, toggleTheme, start, stop };
   }
   const ALayout = {
     setup() {
@@ -221,8 +267,8 @@
       const strip = ref(), tabbar = ref(), hasOverflow = ref(false), canLeft = ref(false), canRight = ref(false), search = ref(''), searchOpen = ref(false), searchInput = ref();
       const context = reactive({ open: false, path: '', x: 0, y: 0 });
       let observer;
-      const results = computed(() => ws.routes.filter(route => (route.title + ' ' + (route.description || '')).toLowerCase().includes(search.value.toLowerCase())).slice(0, 8));
-      const breadcrumbs = computed(() => findMenuTrail(ws.menus, ws.active.value).map(node => node.title));
+      const results = computed(() => ws.routes.filter(route => !route.path.split('/').some(segment => segment.startsWith(':')) && (route.title + ' ' + (route.description || '')).toLowerCase().includes(search.value.toLowerCase())).slice(0, 8));
+      const breadcrumbs = computed(() => findMenuTrail(ws.menus, ws.current.value.routePath).map(node => node.title));
       const contextIndex = computed(() => ws.opened.value.indexOf(context.path));
       function updateScroll() { if (!strip.value || !tabbar.value) return; const tabs = [...strip.value.children]; const style = getComputedStyle(strip.value); const barStyle = getComputedStyle(tabbar.value); const tabsWidth = tabs.reduce((width, tab) => width + tab.getBoundingClientRect().width, 0) + Math.max(0, tabs.length - 1) * (parseFloat(style.columnGap) || 0); const available = tabbar.value.clientWidth - (parseFloat(barStyle.paddingLeft) || 0) - (parseFloat(barStyle.paddingRight) || 0); hasOverflow.value = tabsWidth > available + 1; canLeft.value = strip.value.scrollLeft > 1; canRight.value = strip.value.scrollLeft + strip.value.clientWidth < strip.value.scrollWidth - 1; }
       function scroll(direction) {
@@ -253,7 +299,7 @@
       <button v-if="ws.mobileOpen.value" class="aui-sidebar-backdrop" aria-label="关闭导航" @click="ws.mobileOpen.value=false"></button>
       <aside class="aui-sidebar"><a :href="'#'+ws.home" class="aui-brand" @click.prevent="ws.open(ws.home)"><span class="aui-brand-mark">A<span></span></span><div><strong>{{ws.brand.name}}</strong><small>{{ws.brand.subtitle}}</small></div></a>
       <div class="aui-workspace-label"><span class="aui-workspace-dot"></span><span>默认工作空间</span><span class="aui-sidebar-version">v0.2</span></div>
-      <a-menu class="aui-side-nav" :items="ws.menus" :active="ws.active.value" :collapsed="ws.collapsed.value && !ws.mobileOpen.value" @navigate="ws.open" @expand="ws.collapsed.value=false"/>
+      <a-menu class="aui-side-nav" :items="ws.menus" :active="ws.current.value.routePath" :collapsed="ws.collapsed.value && !ws.mobileOpen.value" @navigate="ws.open" @expand="ws.collapsed.value=false"/>
       <div class="aui-sidebar-note"><span class="aui-note-mark"><a-icon name="layers" :size="20"/></span><div><strong>少一点搭建，多一点创造</strong><p>专注你的下一件作品。</p></div></div><div class="aui-sidebar-bottom"><span class="aui-status-dot"></span><span>All systems operational</span><a-icon name="external" :size="13"/></div></aside>
       <div class="aui-main"><header class="aui-topbar"><div class="aui-topbar-start"><button class="aui-icon-button aui-desktop-toggle" :aria-label="ws.collapsed.value?'展开导航':'收起导航'" @click="ws.collapsed.value=!ws.collapsed.value"><a-icon name="menu"/></button><button class="aui-icon-button aui-mobile-toggle" aria-label="打开导航" @click="ws.mobileOpen.value=true"><a-icon name="menu"/></button><div class="aui-breadcrumb"><template v-for="(title,index) in breadcrumbs" :key="index"><span v-if="index" class="aui-breadcrumb-separator">/</span><strong v-if="index===breadcrumbs.length-1">{{title}}</strong><span v-else>{{title}}</span></template><strong v-if="!breadcrumbs.length">{{ws.current.value.title}}</strong></div></div><div class="aui-topbar-actions"><button class="aui-search-trigger" @click="searchOpen=true; $nextTick(()=>searchInput?.focus())"><a-icon name="search" :size="16"/><span>搜索页面、组件…</span><kbd>⌘ K</kbd></button><button class="aui-icon-button" aria-label="刷新当前页面" title="刷新当前页面" @click="ws.refresh"><a-icon name="refresh" :size="18"/></button><button class="aui-icon-button" :aria-label="ws.theme.value==='dark'?'切换浅色主题':'切换深色主题'" @click="ws.toggleTheme"><a-icon :name="ws.theme.value==='dark'?'sun':'moon'" :size="18"/></button><div class="aui-user"><span class="aui-user-avatar">{{ws.user.name.slice(0,1)}}</span><div><strong>{{ws.user.name}}</strong><small>{{ws.user.role}}</small></div></div></div></header>
       <div ref="tabbar" class="aui-tabbar"><button v-if="hasOverflow" class="aui-tab-arrow aui-tab-arrow-left" aria-label="向左移动标签" title="向左移动标签" :disabled="!canLeft" @click="scroll(-1)"><a-icon name="chevron" :size="17"/></button><nav ref="strip" class="aui-tabs" aria-label="已打开的页面" @scroll="updateScroll"><div v-for="tab in ws.tabs.value" :key="tab.path" class="aui-tab" :class="{'is-active':tab.path===ws.active.value}" @contextmenu.prevent="openContext($event,tab.path)" @keydown.shift.f10.prevent="openContext($event,tab.path)"><a :href="'#'+tab.path" :aria-current="tab.path===ws.active.value?'page':null" @click.prevent="ws.open(tab.path)"><a-icon :name="tab.icon||'grid'" :size="15"/>{{tab.title}}</a><button :aria-label="'关闭'+tab.title+'标签'" @click="ws.close(tab.path)"><a-icon name="close" :size="13"/></button></div></nav><button v-if="hasOverflow" class="aui-tab-arrow" aria-label="向右移动标签" title="向右移动标签" :disabled="!canRight" @click="scroll(1)"><a-icon name="chevron" :size="17"/></button></div>
@@ -269,9 +315,23 @@
     install(app) { Object.entries(components).forEach(([name, component]) => app.component(name, component)); },
     createApp(options) {
       const ws = createWorkspace(options);
-      const root = { setup() { provide(workspaceKey, ws); onMounted(ws.start); onUnmounted(ws.stop); return { ws }; }, template: '<a-layout><keep-alive :max="20"><component :is="ws.current.value.component" :key="ws.active.value+\':\'+ws.refreshKey.value"/></keep-alive></a-layout>' };
+      const root = { setup() { provide(workspaceKey, ws); onMounted(ws.start); onUnmounted(ws.stop); return { ws }; }, template: '<a-layout><keep-alive v-for="tab in ws.tabs.value" :key="tab.path" :max="1"><component v-if="ws.active.value===tab.path" :is="tab.component" :key="ws.keyFor(tab.path)"/></keep-alive><component v-if="!ws.opened.value.includes(ws.active.value)" :is="ws.current.value.component" :key="ws.keyFor(ws.active.value)"/></a-layout>' };
       const app = V.createApp(root); app.use(global.ElementPlus, { locale: global.ElementPlusLocaleZhCn }); app.use(AdminUI);
       return { app, workspace: ws, mount: selector => app.mount(selector || '#app') };
+    },
+    createRequestClient(config = {}) {
+      return async function (url, options = {}) {
+        try {
+          const prepared = config.beforeRequest ? await config.beforeRequest(url, options) : null;
+          const target = prepared?.url ?? url;
+          const init = prepared?.options ?? options;
+          const data = await AdminUI.request(target, init);
+          return config.transformResponse ? await config.transformResponse(data) : data;
+        } catch (error) {
+          if (config.onError) await config.onError(error);
+          throw error;
+        }
+      };
     },
     async request(url, options = {}) {
       const { timeout = 15000, responseType = 'json', ...init } = options;
@@ -279,7 +339,7 @@
       const relay = () => controller.abort(init.signal?.reason);
       if (init.signal?.aborted) relay(); else init.signal?.addEventListener('abort', relay, { once: true });
       const timer = setTimeout(() => controller.abort(), timeout);
-      try { const response = await fetch(url, { credentials: 'same-origin', ...init, signal: controller.signal }); if (!response.ok) throw new Error('HTTP ' + response.status); if (response.status === 204) return null; return responseType === 'text' ? await response.text() : await response.json(); }
+      try { const response = await fetch(url, { credentials: 'same-origin', ...init, signal: controller.signal }); if (!response.ok) { const error = new Error('HTTP ' + response.status); error.status = response.status; throw error; } if (response.status === 204) return null; return responseType === 'text' ? await response.text() : await response.json(); }
       finally { clearTimeout(timer); init.signal?.removeEventListener('abort', relay); }
     }
   };

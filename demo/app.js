@@ -19,37 +19,21 @@
   for (const [key, spec] of Object.entries(catalog.specs)) {
     routes.push({ path: '/components/catalog/' + key, title: spec[0], description: spec[1], icon: catalog.icons[key], component: key === 'table' ? D.TableExamples : catalog.build(key) });
   }
-  const item = path => {
-    const route = routes.find(route => route.path === path);
-    return { path: route.path, title: route.title, icon: route.icon };
-  };
-  AdminUI.createApp({
-    brand: { name: 'AdminUI', subtitle: '应用开发组件库' },
-    user: { name: 'Alex Chen', role: '工作空间管理员' },
-    home: '/dashboard',
-    storageKey: 'adminui.demo.workspace.v1',
-    routes,
-    menus: [
-      { title: '仪表盘', icon: 'grid', children: [item('/dashboard'), item('/reports')] },
-      { title: '组件中心', icon: 'layers', badge: '12', children: [
-        item('/components'),
-        { title: '基础组件', icon: 'box', children: [item('/components/buttons'), item('/components/icons'), item('/components/selects')] },
-        item('/components/charts'),
-        item('/components/navigation'),
-        ...catalog.menu.map(group => ({ title: group.title, icon: group.icon, children: group.items.map(key => item('/components/catalog/' + key)) }))
-      ] },
-      { title: '开发示例', icon: 'form', children: [item('/users'), item('/forms')] },
-      { title: '开发文档', icon: 'book', children: [item('/docs')] },
-      { title: '系统设置', icon: 'settings', children: [item('/settings')] },
-      { title: '页面示例', icon: 'shield', children: [
-        { path: '/pages', title: '页面总览', icon: 'overview' },
-        { title: '登录页', icon: 'login', href: 'examples/pages.html?type=login', target: '_blank' },
-        { title: '注册页', icon: 'register', href: 'examples/pages.html?type=register', target: '_blank' },
-        { title: '403 无权限', icon: 'lock', href: 'examples/pages.html?type=403', target: '_blank' },
-        { title: '404 页面不存在', icon: 'missing', href: 'examples/pages.html?type=404', target: '_blank' },
-        { title: '500 服务器错误', icon: 'server', href: 'examples/pages.html?type=500', target: '_blank' },
-        { title: '502 网关错误', icon: 'network', href: 'examples/pages.html?type=502', target: '_blank' }
-      ] }
-    ]
-  }).mount('#app');
+  async function start() {
+    const menus = await AdminUI.request('demo/data/menus.json');
+    if (!Array.isArray(menus)) throw new Error('菜单数据格式错误');
+    AdminUI.createApp({
+      brand: { name: 'AdminUI', subtitle: '应用开发组件库' },
+      user: { name: 'Alex Chen', role: '工作空间管理员' },
+      home: '/dashboard',
+      storageKey: 'adminui.demo.workspace.v1',
+      routes,
+      menus
+    }).mount('#app');
+  }
+  start().catch(error => {
+    const app = document.getElementById('app');
+    app.removeAttribute('v-cloak');
+    app.textContent = '菜单加载失败，请检查 demo/data/menus.json 和静态服务器：' + error.message;
+  });
 })();
