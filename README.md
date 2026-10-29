@@ -112,6 +112,21 @@ admin.mount('#app');
 
 返回 `{ app, workspace, mount }`，可在 mount 前继续向 app 注册业务组件。home 必须存在，route.path 不可重复。
 
+顶部账户菜单默认展示个人信息，退出入口会提示当前为演示账号。`createApp` 的 `user` 可传入 `name`、`role`、`account`、`department`、`email`、`loginTime`、`loginDevice` 和 `loginLocation`；未传入的详情显示“未提供”。当前页面从 `app/mock/account.json` 读取示例数据，并在详情中标记为演示数据。接入真实账号系统时，可通过 `createApp` 配置操作回调；回调可以是异步函数，退出、清理凭据和跳转由业务自行处理：
+
+```js
+userActions: {
+    onProfile({ user, workspace }) {
+        workspace.open('/profile');
+    },
+    async onLogout({ user, workspace }) {
+        // 调用业务退出接口并处理登录状态。
+    },
+}
+```
+
+回调接收当前 `user` 和 `workspace`。页面路由需要事先注册；菜单本身不会假装完成服务端退出。
+
 ### 仅使用组件
 
 ```js

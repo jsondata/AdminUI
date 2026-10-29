@@ -365,8 +365,13 @@ p {
     display: flex;
     align-items: center;
     gap: 9px;
-    padding-left: 16px;
+    padding: 0 0 0 16px;
+    border: 0;
     border-left: 1px solid var(--aui-border);
+    background: transparent;
+    color: var(--aui-text);
+    text-align: left;
+    cursor: pointer;
 }
 .aui-user-avatar {
     width: 32px;
@@ -389,6 +394,97 @@ p {
     color: var(--aui-muted);
     font-size: 12px;
     margin-top: 2px;
+}
+.aui-user-chevron {
+    color: var(--aui-muted);
+    transform: rotate(90deg);
+}
+.aui-user-dropdown .el-dropdown-menu__item {
+    gap: 8px;
+}
+.aui-profile-dialog .el-dialog__header {
+    margin-bottom: 20px;
+}
+.aui-profile-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--aui-border);
+    border-radius: 10px;
+    background: var(--aui-bg);
+}
+.aui-profile-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: var(--aui-primary-soft);
+    color: var(--aui-primary);
+    font-size: 20px;
+    font-weight: 600;
+}
+.aui-profile-person {
+    flex: 1;
+    min-width: 0;
+}
+.aui-profile-person strong,
+.aui-profile-person span {
+    display: block;
+}
+.aui-profile-person strong {
+    color: var(--aui-text);
+    font-size: 15px;
+    line-height: 1.4;
+}
+.aui-profile-person span {
+    margin-top: 3px;
+    color: var(--aui-muted);
+    font-size: 12px;
+}
+.aui-profile-demo {
+    flex-shrink: 0;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--aui-primary-soft);
+    color: var(--aui-primary);
+    font-size: 12px;
+}
+.aui-profile-section {
+    margin-top: 22px;
+}
+.aui-profile-section h3 {
+    margin: 0 0 12px;
+    color: var(--aui-text);
+    font-size: 13px;
+    font-weight: 600;
+}
+.aui-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+    margin: 0;
+}
+.aui-profile-grid dt {
+    margin-bottom: 4px;
+    color: var(--aui-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+.aui-profile-grid dd {
+    margin: 0;
+    color: var(--aui-text);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+.aui-profile-full {
+    grid-column: 1 / -1;
+}
+.aui-profile-dialog .el-dialog__footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--aui-border);
 }
 .aui-tabbar {
     height: 43px;
@@ -1026,7 +1122,8 @@ p {
     .aui-user {
         padding-left: 8px;
     }
-    .aui-user > div {
+    .aui-user-info,
+    .aui-user-chevron {
         display: none;
     }
     .aui-content {

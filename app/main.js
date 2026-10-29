@@ -108,11 +108,17 @@
         route.component = AdminUI.createPage(route.component);
     }
     async function start() {
-        const menus = await AdminUI.request('app/mock/menus.json');
+        const [menus, account] = await Promise.all([
+            AdminUI.request('app/mock/menus.json'),
+            AdminUI.request('app/mock/account.json').catch(() => null),
+        ]);
         if (!Array.isArray(menus)) throw new Error('菜单数据格式错误');
         AdminUI.createApp({
             brand: { name: 'AdminUI', subtitle: '应用开发组件库' },
-            user: { name: 'Alex Chen', role: '工作空间管理员' },
+            user:
+                account && typeof account.name === 'string' && account.name
+                    ? account
+                    : { name: 'Alex Chen', role: '工作空间管理员', isDemo: true },
             home: '/dashboard',
             storageKey: 'adminui.demo.workspace.v1',
             routes,

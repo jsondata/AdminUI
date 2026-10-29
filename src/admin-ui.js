@@ -59,7 +59,8 @@
         menu: 'M4 6h16 M4 12h16 M4 18h16',
         search: 'M21 21l-5-5 M10.5 3a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15',
         bell: 'M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4',
-        refresh: 'M20 7v5h-5 M4 17v-5h5 M5 7a8 8 0 0 1 13-2l2 3 M4 16l2 3a8 8 0 0 0 13-2',
+        refresh: 'M20 11a8 8 0 1 0 -2.35 6.65 M20 4v7h-7',
+        logout: 'M10 4H5v16h5 M14 8l4 4-4 4 M8 12h10',
         chevron: 'M9 5l7 7-7 7',
         arrow: 'M5 12h14 M14 7l5 5-5 5',
         plus: 'M12 5v14 M5 12h14',
@@ -917,6 +918,7 @@
             menus,
             brand: options.brand || { name: 'AdminUI', subtitle: '让后台开发更从容' },
             user: options.user || { name: 'Admin', role: '管理员' },
+            userActions: options.userActions || {},
             home,
             active,
             opened,
@@ -947,6 +949,7 @@
                 canRight = ref(false),
                 search = ref(''),
                 searchOpen = ref(false),
+                profileOpen = ref(false),
                 searchInput = ref();
             const context = reactive({ open: false, path: '', x: 0, y: 0 });
             let observer;
@@ -1042,6 +1045,23 @@
                 searchOpen.value = false;
                 search.value = '';
             }
+            async function handleUserCommand(command) {
+                const action =
+                    command === 'profile' ? ws.userActions.onProfile : ws.userActions.onLogout;
+                try {
+                    if (action) {
+                        await action({ user: ws.user, workspace: ws });
+                    } else if (command === 'profile') {
+                        profileOpen.value = true;
+                    } else {
+                        global.ElementPlus.ElMessage.info('当前为演示账号，尚未接入登录服务。');
+                    }
+                } catch (error) {
+                    if (error !== 'cancel' && error !== 'close') {
+                        global.ElementPlus.ElMessage.error(error?.message || '操作失败');
+                    }
+                }
+            }
             watch(
                 () => [ws.active.value, ws.tabs.value, ws.collapsed.value, hasOverflow.value],
                 async () => {
@@ -1081,6 +1101,7 @@
                 canRight,
                 search,
                 searchOpen,
+                profileOpen,
                 searchInput,
                 results,
                 breadcrumbs,
@@ -1091,6 +1112,7 @@
                 openContext,
                 closeContext,
                 choose,
+                handleUserCommand,
             };
         },
         template: /* HTML */ `
@@ -1168,6 +1190,14 @@
                                     {{ws.current.value.title}}
                                 </strong>
                             </div>
+                            <button
+                                class="aui-icon-button"
+                                aria-label="刷新当前页面"
+                                title="刷新当前页面"
+                                @click="ws.refresh"
+                            >
+                                <a-icon name="refresh" :size="18" />
+                            </button>
                         </div>
                         <div class="aui-topbar-actions">
                             <button
@@ -1180,26 +1210,27 @@
                             </button>
                             <button
                                 class="aui-icon-button"
-                                aria-label="刷新当前页面"
-                                title="刷新当前页面"
-                                @click="ws.refresh"
-                            >
-                                <a-icon name="refresh" :size="18" />
-                            </button>
-                            <button
-                                class="aui-icon-button"
                                 :aria-label="ws.theme.value==='dark'?'切换浅色主题':'切换深色主题'"
                                 @click="ws.toggleTheme"
                             >
                                 <a-icon :name="ws.theme.value==='dark'?'sun':'moon'" :size="18" />
                             </button>
-                            <div class="aui-user">
-                                <span class="aui-user-avatar">{{ws.user.name.slice(0,1)}}</span>
-                                <div>
-                                    <strong>{{ws.user.name}}</strong>
-                                    <small>{{ws.user.role}}</small>
-                                </div>
-                            </div>
+                            <el-dropdown trigger="click" placement="bottom-end" popper-class="aui-user-dropdown" @command="handleUserCommand">
+                                <button type="button" class="aui-user" aria-label="账户菜单">
+                                    <span class="aui-user-avatar">{{ws.user.name.slice(0,1)}}</span>
+                                    <span class="aui-user-info">
+                                        <strong>{{ws.user.name}}</strong>
+                                        <small>{{ws.user.role}}</small>
+                                    </span>
+                                    <a-icon class="aui-user-chevron" name="chevron" :size="14" />
+                                </button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <el-dropdown-item command="profile"><a-icon name="user" :size="16" />个人信息</el-dropdown-item>
+                                        <el-dropdown-item command="logout" divided><a-icon name="logout" :size="16" />退出登录</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
                         </div>
                     </header>
                     <div ref="tabbar" class="aui-tabbar">
@@ -1285,6 +1316,33 @@
                         <button role="menuitem" @click="closeContext('all')">关闭全部</button>
                     </div>
                 </teleport>
+                <el-dialog v-model="profileOpen" title="个人信息" width="min(520px, calc(100vw - 32px))" class="aui-profile-dialog">
+                    <div class="aui-profile-identity">
+                        <span class="aui-profile-avatar">{{ws.user.name.slice(0,1)}}</span>
+                        <div class="aui-profile-person">
+                            <strong>{{ws.user.name}}</strong>
+                            <span>{{ws.user.role || '未设置角色'}}</span>
+                        </div>
+                        <span v-if="ws.user.isDemo" class="aui-profile-demo">演示数据</span>
+                    </div>
+                    <div class="aui-profile-section">
+                        <h3>账号信息</h3>
+                        <dl class="aui-profile-grid">
+                            <div><dt>账号</dt><dd>{{ws.user.account || '未提供'}}</dd></div>
+                            <div><dt>所属部门</dt><dd>{{ws.user.department || '未提供'}}</dd></div>
+                            <div class="aui-profile-full"><dt>邮箱</dt><dd>{{ws.user.email || '未提供'}}</dd></div>
+                        </dl>
+                    </div>
+                    <div class="aui-profile-section">
+                        <h3>登录信息</h3>
+                        <dl class="aui-profile-grid">
+                            <div><dt>上次登录</dt><dd>{{ws.user.loginTime || '未提供'}}</dd></div>
+                            <div><dt>登录地点</dt><dd>{{ws.user.loginLocation || '未提供'}}</dd></div>
+                            <div class="aui-profile-full"><dt>登录设备</dt><dd>{{ws.user.loginDevice || '未提供'}}</dd></div>
+                        </dl>
+                    </div>
+                    <template #footer><el-button @click="profileOpen=false">关闭</el-button></template>
+                </el-dialog>
                 <el-dialog
                     v-model="searchOpen"
                     title="快速跳转"
