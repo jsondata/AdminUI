@@ -289,24 +289,33 @@ test('all library and demo templates compile with the bundled Vue compiler', () 
         children: [],
     });
     h.context.ElementPlus = { ElMessage: {} };
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/pages.js'), 'utf8'), h.context);
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/navigation.js'), 'utf8'), h.context);
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/catalog-more.js'), 'utf8'), h.context);
-    vm.runInContext(
-        fs.readFileSync(path.join(root, 'demo/catalog-advanced.js'), 'utf8'),
-        h.context,
-    );
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/catalog.js'), 'utf8'), h.context);
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/table-examples.js'), 'utf8'), h.context);
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/charts.js'), 'utf8'), h.context);
-    vm.runInContext(fs.readFileSync(path.join(root, 'demo/docs.js'), 'utf8'), h.context);
-    const catalog = h.context.AdminUIDemo.catalog;
+    for (const file of [
+        'app/utils/export.js',
+        ...[
+            'dashboard',
+            'users',
+            'forms',
+            'components',
+            'reports',
+            'pageexamples',
+            'settings',
+            'docs-overview',
+        ].map((name) => `app/pages/${name}.js`),
+        ...['navigation', 'catalog-more', 'catalog-advanced', 'catalog', 'table-examples'].map(
+            (name) => `app/components/${name}.js`,
+        ),
+        'app/pages/charts.js',
+        'app/pages/docs.js',
+    ]) {
+        vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), h.context);
+    }
+    const catalog = h.context.AdminUIPages.catalog;
     const examples = Object.fromEntries(
         Object.keys(catalog.specs).map((key) => [key, catalog.build(key)]),
     );
     for (const [name, component] of Object.entries({
         ...h.context.AdminUI.components,
-        ...h.context.AdminUIDemo,
+        ...h.context.AdminUIPages,
         ...examples,
     })) {
         if (!component || typeof component !== 'object' || !component.template) continue;
@@ -416,11 +425,15 @@ test('recursive menus retain compatibility with the existing items format', () =
 test('demo menu JSON points to registered routes', async () => {
     const h = harness();
     h.context.ElementPlus = { ElMessage: {} };
-    h.context.AdminUIDemo = {};
-    for (const file of ['demo/catalog-more.js', 'demo/catalog-advanced.js', 'demo/catalog.js']) {
+    h.context.AdminUIPages = {};
+    for (const file of [
+        'app/components/catalog-more.js',
+        'app/components/catalog-advanced.js',
+        'app/components/catalog.js',
+    ]) {
         vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), h.context);
     }
-    const menus = JSON.parse(fs.readFileSync(path.join(root, 'demo/data/menus.json'), 'utf8'));
+    const menus = JSON.parse(fs.readFileSync(path.join(root, 'app/mock/menus.json'), 'utf8'));
     const options = await new Promise((resolve) => {
         h.context.AdminUI = {
             request: async () => menus,
@@ -429,7 +442,7 @@ test('demo menu JSON points to registered routes', async () => {
                 return { mount() {} };
             },
         };
-        vm.runInContext(fs.readFileSync(path.join(root, 'demo/app.js'), 'utf8'), h.context);
+        vm.runInContext(fs.readFileSync(path.join(root, 'app/main.js'), 'utf8'), h.context);
     });
     const paths = new Set(options.routes.map((route) => route.path));
     function check(items) {
@@ -444,7 +457,7 @@ test('demo menu JSON points to registered routes', async () => {
 
 test('demo JSON data supports users, charts and reporting', () => {
     const read = (name) =>
-        JSON.parse(fs.readFileSync(path.join(root, 'demo/data', name + '.json'), 'utf8'));
+        JSON.parse(fs.readFileSync(path.join(root, 'app/mock', name + '.json'), 'utf8'));
     const users = read('users'),
         charts = read('charts'),
         dashboard = read('dashboard'),
@@ -520,4 +533,56 @@ test('configured request client handles business and HTTP unauthorized errors', 
     ]);
     h.context.fetch = async () => ({ ok: true, status: 200, json: async () => ({ data: [] }) });
     await assert.rejects(api('/bad'), /缺少业务状态码/);
+});
+
+test('production request configuration works without demo files and restricts token headers', async () => {
+    const h = harness();
+    h.context.URL = URL;
+    h.context.Headers = Headers;
+    h.location.href = 'https://app.example.test/index.html';
+    const calls = [];
+    h.context.fetch = async (url, init) => {
+        calls.push({ url, init });
+        return { ok: true, status: 200, json: async () => ({ code: 0, data: { id: 1 } }) };
+    };
+    for (const file of ['config/admin-ui.js', 'src/admin-request.js']) {
+        vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), h.context);
+    }
+    assert.deepEqual(plain(await h.context.AdminUI.api('/users')), { id: 1 });
+    const config = {
+        ...h.context.AdminUIConfig,
+        request: {
+            baseURL: 'https://api.example.test',
+            tokenName: 'Authorization',
+            tokenPrefix: 'Bearer ',
+        },
+    };
+    const api = h.context.AdminUI.createConfiguredRequest(config, { getToken: () => 'test-token' });
+    await api('/private');
+    assert.equal(calls[1].init.headers.get('Authorization'), 'Bearer test-token');
+    await api('https://other.example.test/public');
+    assert.equal(calls[2].init.headers, undefined);
+    await api('/public', { skipAuth: true });
+    assert.equal(calls[3].init.headers, undefined);
+    assert.equal('skipAuth' in calls[3].init, false);
+});
+
+test('application entry and menu local resources resolve after directory organization', () => {
+    const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+    for (const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
+        const file = match[1].split('?')[0];
+        assert.ok(fs.existsSync(path.join(root, file)), `missing application resource: ${file}`);
+    }
+    const menus = JSON.parse(fs.readFileSync(path.join(root, 'app/mock/menus.json'), 'utf8'));
+    function check(items) {
+        for (const item of items) {
+            if (item.href && !/^(?:https?:|\/\/)/.test(item.href)) {
+                const file = item.href.split('?')[0].split('#')[0];
+                assert.ok(fs.existsSync(path.join(root, file)), `missing menu target: ${file}`);
+            }
+            if (item.children) check(item.children);
+            if (item.items) check(item.items);
+        }
+    }
+    check(menus);
 });

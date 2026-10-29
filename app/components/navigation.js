@@ -1,7 +1,7 @@
 /* 导航与基础组件示例，不连接后端。 */
 (function () {
     const { ref, computed } = Vue;
-    AdminUIDemo.Navigation = {
+    AdminUIPages.Navigation = {
         name: 'Navigation',
         setup() {
             const active = ref('/sample/team/members'),
@@ -134,7 +134,7 @@
             </div>
         `,
     };
-    AdminUIDemo.Buttons = {
+    AdminUIPages.Buttons = {
         name: 'Buttons',
         setup() {
             const loading = ref(false);
@@ -187,7 +187,7 @@
             </div>
         `,
     };
-    AdminUIDemo.Icons = {
+    AdminUIPages.Icons = {
         name: 'Icons',
         setup() {
             const keyword = ref(''),
@@ -281,7 +281,7 @@
             </div>
         `,
     };
-    AdminUIDemo.Selects = {
+    AdminUIPages.Selects = {
         name: 'Selects',
         setup() {
             return {

@@ -251,37 +251,37 @@
             {
                 "title": "登录页",
                 "icon": "login",
-                "href": "examples/pages.html?type=login",
+                "href": "app/pages/standalone/pages.html?type=login",
                 "target": "_blank"
             },
             {
                 "title": "注册页",
                 "icon": "register",
-                "href": "examples/pages.html?type=register",
+                "href": "app/pages/standalone/pages.html?type=register",
                 "target": "_blank"
             },
             {
                 "title": "403 无权限",
                 "icon": "lock",
-                "href": "examples/pages.html?type=403",
+                "href": "app/pages/standalone/pages.html?type=403",
                 "target": "_blank"
             },
             {
                 "title": "404 页面不存在",
                 "icon": "missing",
-                "href": "examples/pages.html?type=404",
+                "href": "app/pages/standalone/pages.html?type=404",
                 "target": "_blank"
             },
             {
                 "title": "500 服务器错误",
                 "icon": "server",
-                "href": "examples/pages.html?type=500",
+                "href": "app/pages/standalone/pages.html?type=500",
                 "target": "_blank"
             },
             {
                 "title": "502 网关错误",
                 "icon": "network",
-                "href": "examples/pages.html?type=502",
+                "href": "app/pages/standalone/pages.html?type=502",
                 "target": "_blank"
             }
         ]

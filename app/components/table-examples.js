@@ -1,7 +1,7 @@
 /* 使用本地示例数据展示表格交互。 */
 (function () {
     const { ref } = Vue;
-    AdminUIDemo.TableExamples = {
+    AdminUIPages.TableExamples = {
         name: 'TableExamples',
         setup() {
             const rows = ref([

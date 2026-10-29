@@ -47,7 +47,7 @@
                         keyword: keyword.value.trim(),
                     });
                     const data = await api(
-                        remote ? '/api/projects?' + params : 'data/projects.json',
+                        remote ? '/api/projects?' + params : '../../app/mock/projects.json',
                     );
                     if (id !== requestId) return;
                     rows.value = remote ? data.rows : data;

@@ -14,19 +14,25 @@ python3 -m http.server 8300 --bind 127.0.0.1
 
 浏览器访问 `http://127.0.0.1:8300/`。不需要 npm install，不需要构建，也没有外部字体或 CDN 请求。
 
-- `index.html`：完整演示站，包含工作台、独立数据报表与页面示例入口。
-- `examples/starter.html`：带布局、多标签和路由的最小应用。
-- `examples/components.html`：在已有页面中独立使用组件。
-- `examples/integration.html`：混用 AdminUI、Vue、Element Plus、Tabler 和本地数据的完整示例。
-- `examples/backend.html`：本地模拟登录、401 和上传接入示例；需运行 `python3 examples/mock_server.py`。模拟服务只用于本地开发。
+- `index.html`：后台应用入口，包含工作台、用户管理、报表和组件等页面。
+- `app/main.js`：注册页面路由并加载菜单；`app/index.html` 跳转到根入口。
+- `config/admin-ui.js`：应用请求配置，接口域名、令牌请求头、响应字段和业务状态码在此维护。
+- `docs/guide/starter.html`：带布局、多标签和路由的最小应用。
+- `docs/guide/components.html`：在已有页面中独立使用组件。
+- `docs/guide/integration.html`：混用 AdminUI、Vue、Element Plus、Tabler 和本地数据的完整示例。
+- `docs/guide/backend.html`：本地模拟登录、401 和上传接入示例；需运行 `python3 tools/mock_server.py`。模拟服务只用于本地开发。
 - `docs/组件与接入.md`：组件 API、原生组件混用及业务接入说明。
 - `docs/维护与发布.md`：轻量发行、依赖更新和验证流程。
-- `examples/pages.html?type=login`、`register`、`403`、`404`、`500`、`502`：独立页面示例。登录和注册只做本地表单校验，需自行接入认证接口；错误页面的 HTTP 状态码和错误路由需由服务器配置。
+- `app/pages/standalone/pages.html?type=login`、`register`、`403`、`404`、`500`、`502`：独立页面示例。登录和注册只做本地表单校验，需自行接入认证接口；错误页面的 HTTP 状态码和错误路由需由服务器配置。
 - `src/admin-ui.js`：12 个组件、工作区导航、请求工具。
+- `src/admin-request.js`：可选的统一请求入口，读取正式配置创建 `AdminUI.api`。
 - `src/admin-ui.css`：主题变量、组件与响应式布局。
-- `demo/`：演示业务代码和样式；`demo/data/` 包含菜单、用户、工作台、报表与图表的本地 JSON；不属于必须复制的库文件。组件中心还包含栅格、表单、日期、弹层、表格、分页、上传、树、穿梭框、颜色、滑块、评分、轮播和加载等交互示例。
+- `app/pages/`：按页面拆分的业务、组件展示及文档页面；`app/components/` 保存组件展示页面使用的代码，`app/assets/` 保存应用样式，`app/utils/` 保存应用公共工具。
+- `app/mock/`：当前菜单、用户、工作台、报表、图表等本地 JSON。现有页面仍依赖这些数据，接入真实接口后才能按需移除。
 - `vendor/`：上游发行文件与许可证。
 - `tests/`：无需安装依赖的 Node 回归测试，仅开发验收使用。
+
+部署当前应用时，保留根目录 `index.html`、`app/`、`config/`、`src/` 和所用的 `vendor/` 依赖。当前文档页面引用 `docs/guide/` 中的接入示例，保留文档页面时也应保留该目录；`preview/`、`tests/`、`tools/` 可从部署包排除。当前页面仍使用 `app/mock/` 的本地数据，上线前应接入真实业务接口并确认菜单来源，再移除不需要的模拟数据。图表、富文本及其 vendor 资源可在移除相关页面或功能后按需精简。
 
 ## 两种接入方式
 
@@ -207,7 +213,7 @@ const data = await AdminUI.request('/api/users?page=1', {
 });
 ```
 
-`AdminUI.createRequestClient()` 可选配置接口地址、超时、业务响应码和请求、响应、错误钩子；[接口配置示例](examples/api-config.js)与[组件与接入指南](docs/组件与接入.md)展示完整接线。
+正式应用配置位于 [config/admin-ui.js](config/admin-ui.js)，可设置接口域名、超时、令牌请求头和响应码；加载 `src/admin-request.js` 后可使用统一的 `AdminUI.api`。请求与响应钩子、独立客户端和接入顺序见[组件与接入指南](docs/组件与接入.md)。不使用此封装时仍可直接调用 `AdminUI.request` 或原生 `fetch`。
 
 基于 fetch，默认同源凭据、15 秒超时、JSON 响应。非 2xx 抛出包含状态码的 Error，204 返回 null。`responseType:'text'` 可读取文本。支持调用方 AbortSignal。不会猜测 code/data 等业务协议，也不会自动做身份续期、重试或错误弹窗。
 
@@ -216,7 +222,7 @@ const data = await AdminUI.request('/api/users?page=1', {
 ```sh
 node --test tests/workspace.test.cjs
 node --check src/admin-ui.js
-node --check demo/pages.js
+node --check app/pages/users.js
 ```
 
 Node 仅用于无依赖测试，不是运行或构建依赖。页面交互仍须浏览器验收。菜单、用户初始数据、工作台、报表和图表示例通过本地 JSON 请求加载。示例用户的新增/编辑/删除仅写当前浏览器 localStorage，已有数据优先于 JSON；“恢复演示数据”会使用 users.json 重置。修改 JSON 后刷新即可；切换到真实接口时需自行处理权限与数据协议。首页部分文案和时间线仍为静态演示。
@@ -254,7 +260,7 @@ menus: [{
 - 可独立使用 `<a-menu :items="tree" :active="path" :accordion="true" @navigate="path=$event" />`；AMenu 本身不写浏览器地址，也不负责接口权限。
 - `AdminUI.findMenuTrail(tree, path)` 返回当前路径的完整节点数组，未匹配返回空数组。
 
-真实交互示例在“组件中心 → 布局与导航 → 多级菜单”；源码位于 `demo/navigation.js`。
+真实交互示例在“组件中心 → 布局与导航 → 多级菜单”；源码位于 `app/components/navigation.js`。
 
 ## 可读性基线（0.2.0）
 
@@ -276,7 +282,7 @@ menus: [{
 仓库提供 `.editorconfig` 和 Prettier 配置。开发时可使用编辑器的 EditorConfig 和 Prettier 插件，也可在项目根目录运行：
 
 ```bash
-npx --yes prettier@3.6.2 --write index.html 'src/**/*.{js,css}' 'demo/**/*.{js,css,json}' 'examples/**/*.{js,css,html,json}' 'tests/**/*.cjs' adminui.json
+npx --yes prettier@3.6.2 --write index.html 'app/**/*.{js,css,html,json}' 'config/**/*.js' 'src/**/*.{js,css}' 'docs/guide/**/*.{js,css,html}' 'tests/**/*.cjs' adminui.json
 ```
 
 JavaScript 中的 `/* HTML */` 是 Prettier 识别 Vue 模板的格式标记，保留它可以在后续格式化时继续整理模板。Python 示例保持 4 空格缩进，可按项目规范单独维护。

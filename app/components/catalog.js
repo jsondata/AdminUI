@@ -864,5 +864,5 @@
             `,
         };
     }
-    AdminUIDemo.catalog = { specs, menu, icons, build };
+    AdminUIPages.catalog = { specs, menu, icons, build };
 })();

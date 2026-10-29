@@ -294,7 +294,7 @@ workspace.refresh();`,
             id: 'request',
             title: '请求与接口',
             desc: '统一配置接口地址、业务响应码与请求拦截。',
-            note: '可参考 examples/api-config.js 集中配置域名、超时与状态码；原生 fetch 和 AdminUI.request 仍可直接使用。',
+            note: '正式配置位于 config/admin-ui.js；加载 src/admin-request.js 后可使用 AdminUI.api。原生 fetch 和 AdminUI.request 仍可直接使用。',
             code: `const api = AdminUI.createRequestClient({
     baseURL: '', // 留空使用当前域名
     timeout: 15000,
@@ -309,7 +309,7 @@ workspace.refresh();`,
     onUnauthorized(error) { console.log('登录已失效', error); },
     onError(error) { console.log('请求失败', error.message); }
 });
-const data = await api('examples/data/projects.json');`,
+const data = await api('app/mock/projects.json');`,
         },
     ];
     const byId = (id) => [...guide, ...components].find((entry) => entry.id === id);
@@ -396,7 +396,7 @@ const data = await api('examples/data/projects.json');`,
             ],
         },
     ];
-    AdminUIDemo.Docs = {
+    AdminUIPages.Docs = {
         name: 'Docs',
         setup() {
             const selected = Vue.ref('start'),
@@ -427,7 +427,7 @@ const data = await api('examples/data/projects.json');`,
             async function demoRequest() {
                 requestLoading.value = true;
                 try {
-                    const data = await demoApi('examples/data/projects.json');
+                    const data = await demoApi('app/mock/projects.json');
                     requestResult.value = JSON.stringify(data, null, 2);
                 } catch (error) {
                     requestResult.value = '请求失败：' + error.message;
@@ -528,7 +528,7 @@ const data = await api('examples/data/projects.json');`,
                         <p>查阅封装组件、接入方式与原生组件混用示例。</p>
                     </div>
                     <a
-                        href="examples/integration.html"
+                        href="docs/guide/integration.html"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="docs-example-link"
@@ -593,7 +593,7 @@ const data = await api('examples/data/projects.json');`,
                             >
                                 <iframe
                                     v-if="['ALayout','start','workspace'].includes(current.id)"
-                                    src="examples/starter.html"
+                                    src="docs/guide/starter.html"
                                     title="完整工作区布局示例"
                                     loading="lazy"
                                 ></iframe>

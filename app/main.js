@@ -1,5 +1,5 @@
 (function () {
-    const D = AdminUIDemo;
+    const D = AdminUIPages;
     const routes = [
         {
             path: '/dashboard',
@@ -104,7 +104,7 @@
         });
     }
     async function start() {
-        const menus = await AdminUI.request('demo/data/menus.json');
+        const menus = await AdminUI.request('app/mock/menus.json');
         if (!Array.isArray(menus)) throw new Error('菜单数据格式错误');
         AdminUI.createApp({
             brand: { name: 'AdminUI', subtitle: '应用开发组件库' },
@@ -118,7 +118,6 @@
     start().catch((error) => {
         const app = document.getElementById('app');
         app.removeAttribute('v-cloak');
-        app.textContent =
-            '菜单加载失败，请检查 demo/data/menus.json 和静态服务器：' + error.message;
+        app.textContent = '菜单加载失败，请检查 app/mock/menus.json 和静态服务器：' + error.message;
     });
 })();

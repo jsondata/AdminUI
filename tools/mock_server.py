@@ -1,4 +1,4 @@
-"""可选的本地演示服务器，使用 python3 examples/mock_server.py 启动。
+"""可选的本地演示服务器，使用 python3 tools/mock_server.py 启动。
 
 接口使用固定演示账号，不包含生产数据，请勿部署到生产环境。
 """
@@ -76,7 +76,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     os.chdir(ROOT)
-    print('Demo: http://127.0.0.1:8301/examples/integration.html?api=1', flush=True)
+    print('Demo: http://127.0.0.1:8301/docs/guide/integration.html?api=1', flush=True)
     try:
         HTTPServer(('127.0.0.1', 8301), Handler).serve_forever()
     except KeyboardInterrupt:

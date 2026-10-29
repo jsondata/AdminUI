@@ -75,7 +75,7 @@
             }
             function goBack() {
                 if (history.length > 1) history.back();
-                else location.href = '../index.html#/dashboard';
+                else location.href = '../../../index.html#/dashboard';
             }
             return {
                 type,

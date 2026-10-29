@@ -8,7 +8,7 @@
 
 覆盖：路由打开与去重、非法配置、标签持久化、单标签关闭、左右批量关闭、全部关闭后刷新、重新打开、浏览器 Hash 同步、事件释放、存储不可用降级、主题偏好、刷新实例 key、请求响应与错误/取消、17 个组件/示例模板编译、空标签工作区直接访问非首页。
 
-`node --check src/admin-ui.js`、`node --check demo/pages.js`、`node --check demo/app.js`：通过。
+`node --check src/admin-ui.js`、`node --check app/pages/users.js`、`node --check app/main.js`：通过。
 
 ## 浏览器交互
 

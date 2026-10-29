@@ -3,6 +3,9 @@
     "version": "0.2.0",
     "license": "MIT",
     "entry": "src/admin-ui.js",
+    "config": "config/admin-ui.js",
+    "requestEntry": "src/admin-request.js",
+    "application": "index.html",
     "styles": "src/admin-ui.css",
     "global": "AdminUI",
     "dependencies": {
@@ -11,12 +14,11 @@
         "vue": "3.5.44"
     },
     "requiresBuild": false,
-    "demo": "index.html",
     "examples": [
-        "examples/starter.html",
-        "examples/components.html",
-        "examples/integration.html",
-        "examples/backend.html"
+        "docs/guide/starter.html",
+        "docs/guide/components.html",
+        "docs/guide/integration.html",
+        "docs/guide/backend.html"
     ],
     "optionalDemoDependencies": {
         "echarts": "5.6.0",

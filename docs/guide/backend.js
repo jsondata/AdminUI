@@ -8,28 +8,26 @@
                 message = Vue.ref(''),
                 file = Vue.ref(null),
                 busy = Vue.ref(false);
-            const api = AdminUI.createRequestClient({
-                ...AdminUIApiConfig,
-                beforeRequest(url, options) {
-                    return {
-                        url,
-                        options: {
-                            ...options,
-                            headers: {
-                                ...(options.headers || {}),
-                                ...(token.value ? { Authorization: 'Bearer ' + token.value } : {}),
-                            },
-                        },
-                    };
+            const api = AdminUI.createConfiguredRequest(
+                {
+                    ...AdminUIConfig,
+                    request: {
+                        ...AdminUIConfig.request,
+                        tokenName: 'Authorization',
+                        tokenPrefix: 'Bearer ',
+                    },
                 },
-                onUnauthorized() {
-                    token.value = '';
-                    message.value = '登录状态失效或账号密码错误';
+                {
+                    getToken: () => token.value,
+                    onUnauthorized() {
+                        token.value = '';
+                        message.value = '登录状态失效或账号密码错误';
+                    },
+                    onError(error) {
+                        if (!message.value) message.value = error.message;
+                    },
                 },
-                onError(error) {
-                    if (!message.value) message.value = error.message;
-                },
-            });
+            );
             async function run(action) {
                 busy.value = true;
                 message.value = '';

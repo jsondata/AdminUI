@@ -180,7 +180,7 @@
             })),
         };
     }
-    AdminUIDemo.Charts = {
+    AdminUIPages.Charts = {
         name: 'Charts',
         setup() {
             const nodes = ref([]),
@@ -195,7 +195,7 @@
             const mapError = ref('');
             async function loadData() {
                 if (!dataRequest)
-                    dataRequest = AdminUI.request('demo/data/charts.json')
+                    dataRequest = AdminUI.request('app/mock/charts.json')
                         .then((data) => {
                             if (!Array.isArray(data.days) || !Array.isArray(data.datasets))
                                 throw new Error('图表数据格式错误');
