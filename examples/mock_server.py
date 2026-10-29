@@ -1,6 +1,6 @@
-"""Optional local demo server; run with python3 examples/mock_server.py.
+"""可选的本地演示服务器，使用 python3 examples/mock_server.py 启动。
 
-The API uses fixed demo credentials and holds no production data. Never deploy it.
+接口使用固定演示账号，不包含生产数据，请勿部署到生产环境。
 """
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from pathlib import Path

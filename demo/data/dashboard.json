@@ -1,145 +1,100 @@
 {
-  "series": {
-    "本周": [
-      40,
-      52,
-      43,
-      70,
-      54,
-      84,
-      69,
-      108,
-      95,
-      120,
-      104,
-      145,
-      132,
-      169
+    "series": {
+        "本周": [40, 52, 43, 70, 54, 84, 69, 108, 95, 120, 104, 145, 132, 169],
+        "本月": [30, 54, 43, 64, 53, 90, 104, 85, 118, 103, 145, 127, 172, 185],
+        "全年": [23, 36, 52, 45, 70, 68, 91, 108, 93, 136, 122, 155, 180, 190]
+    },
+    "totals": {
+        "本周": "26,842",
+        "本月": "104,628",
+        "全年": "1,286,490"
+    },
+    "projects": [
+        {
+            "title": "AdminUI 组件库",
+            "desc": "基础组件 · 12 个组件已交付",
+            "icon": "layers",
+            "progress": 84,
+            "status": "进行中"
+        },
+        {
+            "title": "运营管理平台",
+            "desc": "业务应用 · 6 个页面待验收",
+            "icon": "chart",
+            "progress": 65,
+            "status": "进行中"
+        },
+        {
+            "title": "设计规范与文档",
+            "desc": "设计系统 · 主题变量与接入指南",
+            "icon": "book",
+            "progress": 100,
+            "status": "已完成"
+        }
     ],
-    "本月": [
-      30,
-      54,
-      43,
-      64,
-      53,
-      90,
-      104,
-      85,
-      118,
-      103,
-      145,
-      127,
-      172,
-      185
+    "shortcuts": [
+        {
+            "title": "用户管理",
+            "icon": "users",
+            "path": "/users"
+        },
+        {
+            "title": "新建表单",
+            "icon": "form",
+            "path": "/forms"
+        },
+        {
+            "title": "组件示例",
+            "icon": "layers",
+            "path": "/components"
+        },
+        {
+            "title": "数据报表",
+            "icon": "chart",
+            "path": "/reports"
+        },
+        {
+            "title": "系统设置",
+            "icon": "settings",
+            "path": "/settings"
+        },
+        {
+            "title": "使用文档",
+            "icon": "book",
+            "path": "/docs"
+        }
     ],
-    "全年": [
-      23,
-      36,
-      52,
-      45,
-      70,
-      68,
-      91,
-      108,
-      93,
-      136,
-      122,
-      155,
-      180,
-      190
+    "stats": [
+        {
+            "label": "总访问量",
+            "value": "128,640",
+            "change": "↗ 12.8%",
+            "hint": "较上个周期",
+            "icon": "chart"
+        },
+        {
+            "label": "活跃用户",
+            "value": "8,426",
+            "change": "↗ 8.2%",
+            "hint": "较上个周期",
+            "icon": "users",
+            "tone": "teal"
+        },
+        {
+            "label": "任务完成率",
+            "value": "96.8%",
+            "change": "↗ 4.6%",
+            "hint": "较上个周期",
+            "icon": "check",
+            "tone": "purple"
+        },
+        {
+            "label": "进行中的项目",
+            "value": "24",
+            "change": "+ 3",
+            "hint": "本周新增",
+            "icon": "box",
+            "tone": "orange"
+        }
     ]
-  },
-  "totals": {
-    "本周": "26,842",
-    "本月": "104,628",
-    "全年": "1,286,490"
-  },
-  "projects": [
-    {
-      "title": "AdminUI 组件库",
-      "desc": "基础组件 · 12 个组件已交付",
-      "icon": "layers",
-      "progress": 84,
-      "status": "进行中"
-    },
-    {
-      "title": "运营管理平台",
-      "desc": "业务应用 · 6 个页面待验收",
-      "icon": "chart",
-      "progress": 65,
-      "status": "进行中"
-    },
-    {
-      "title": "设计规范与文档",
-      "desc": "设计系统 · 主题变量与接入指南",
-      "icon": "book",
-      "progress": 100,
-      "status": "已完成"
-    }
-  ],
-  "shortcuts": [
-    {
-      "title": "用户管理",
-      "icon": "users",
-      "path": "/users"
-    },
-    {
-      "title": "新建表单",
-      "icon": "form",
-      "path": "/forms"
-    },
-    {
-      "title": "组件示例",
-      "icon": "layers",
-      "path": "/components"
-    },
-    {
-      "title": "数据报表",
-      "icon": "chart",
-      "path": "/reports"
-    },
-    {
-      "title": "系统设置",
-      "icon": "settings",
-      "path": "/settings"
-    },
-    {
-      "title": "使用文档",
-      "icon": "book",
-      "path": "/docs"
-    }
-  ],
-  "stats": [
-    {
-      "label": "总访问量",
-      "value": "128,640",
-      "change": "↗ 12.8%",
-      "hint": "较上个周期",
-      "icon": "chart"
-    },
-    {
-      "label": "活跃用户",
-      "value": "8,426",
-      "change": "↗ 8.2%",
-      "hint": "较上个周期",
-      "icon": "users",
-      "tone": "teal"
-    },
-    {
-      "label": "任务完成率",
-      "value": "96.8%",
-      "change": "↗ 4.6%",
-      "hint": "较上个周期",
-      "icon": "check",
-      "tone": "purple"
-    },
-    {
-      "label": "进行中的项目",
-      "value": "24",
-      "change": "+ 3",
-      "hint": "本周新增",
-      "icon": "box",
-      "tone": "orange"
-    }
-  ]
 }

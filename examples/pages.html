@@ -1,66 +1,171 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>页面示例 · AdminUI</title>
-  <link rel="stylesheet" href="../vendor/tabler/tabler.min.css">
-  <link rel="stylesheet" href="../vendor/element-plus/index.css">
-  <link rel="stylesheet" href="pages.css?v=20261029-auth">
-</head>
-<body>
-<div id="app" v-cloak>
-  <main class="page-shell">
-    <a class="page-brand" href="../index.html#/dashboard"><span>A</span><strong>AdminUI</strong></a>
-    <section v-if="isAuth" class="auth-layout">
-      <div class="auth-art" aria-hidden="true">
-        <div class="auth-art-top"><span class="auth-art-mark">A</span><span>ADMINUI WORKSPACE</span></div>
-        <div class="auth-art-copy"><span class="auth-art-label">YOUR WORKSPACE</span><h2>让每一天的工作<br>更有条理。</h2><p>一个清晰、顺手的工作空间，<br>从这里开始。</p></div>
-        <div class="auth-visual"><div class="auth-visual-bar"><i></i><i></i><i></i><span></span></div><div class="auth-visual-body"><div class="auth-visual-sidebar"><b></b><i></i><i></i><i></i></div><div class="auth-visual-content"><div class="auth-visual-heading"></div><div class="auth-visual-cards"><i></i><i></i><i></i></div><div class="auth-visual-chart"><svg viewBox="0 0 190 55" preserveAspectRatio="none"><path d="M0 47 L28 38 L52 43 L80 25 L108 31 L136 16 L161 21 L190 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></div></div></div></div>
-        <div class="auth-art-foot"><span></span> 简单、有序，专注于重要的事</div>
-      </div>
-      <div class="page-card auth-form">
-      <div class="page-kicker">{{ type === 'login' ? 'WELCOME BACK' : 'GET STARTED' }}</div>
-      <h1>{{ type === 'login' ? '欢迎回来' : '创建账号' }}</h1>
-      <p class="page-intro">{{ type === 'login' ? '登录你的工作空间，继续今天的工作。' : '填写以下信息，开始使用你的工作空间。' }}</p>
-      <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent="submit">
-        <el-form-item v-if="type === 'register'" label="姓名" prop="name"><el-input v-model="form.name" placeholder="请输入姓名" autocomplete="name"/></el-form-item>
-        <el-form-item label="邮箱" prop="email"><el-input v-model="form.email" type="email" placeholder="name@example.com" autocomplete="email"/></el-form-item>
-        <el-form-item label="密码" prop="password"><el-input v-model="form.password" type="password" show-password placeholder="请输入密码" :autocomplete="type === 'login' ? 'current-password' : 'new-password'"/></el-form-item>
-        <el-form-item v-if="type === 'register'" label="确认密码" prop="confirm"><el-input v-model="form.confirm" type="password" show-password placeholder="再次输入密码" autocomplete="new-password"/></el-form-item>
-        <el-button type="primary" native-type="submit" class="page-submit">{{ type === 'login' ? '登 录' : '创建账号' }}</el-button>
-      </el-form>
-      <p class="page-switch" v-if="type === 'login'">还没有账号？ <a href="?type=register">注册账号</a></p>
-      <p class="page-switch" v-else>已有账号？ <a href="?type=login">返回登录</a></p>
-      <p class="page-demo-note" role="status">{{ notice || '页面示例：尚未连接账号服务。' }}</p>
-      </div>
-    </section>
-    <section v-else class="error-layout">
-      <div class="error-art" aria-hidden="true">
-        <div class="error-orbit error-orbit-outer"></div><div class="error-orbit error-orbit-inner"></div>
-        <span class="error-spark error-spark-one">✳</span><span class="error-spark error-spark-two">✦</span>
-        <div class="error-illustration"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <g v-if="type==='403'"><path d="M20 28v-7a12 12 0 0 1 24 0v7"/><rect x="16" y="28" width="32" height="25" rx="5"/><circle cx="32" cy="39" r="2"/><path d="M32 41v4"/></g>
-          <g v-else-if="type==='404'"><path d="M19 9h20l10 10v30a5 5 0 0 1-5 5H19a5 5 0 0 1-5-5V14a5 5 0 0 1 5-5z"/><path d="M39 9v11h10 M24 34l14 10 M38 34L24 44"/></g>
-          <g v-else><rect x="13" y="12" width="38" height="17" rx="4"/><rect x="13" y="35" width="38" height="17" rx="4"/><path d="M21 20h.1 M21 43h.1 M29 20h14 M29 43h14"/></g>
-        </svg></div>
-        <div class="error-art-tag"><span></span> STATUS {{ type }}</div>
-      </div>
-      <div class="error-copy">
-        <div class="error-eyebrow"><span></span> {{ error.label }}</div>
-        <div class="error-code">{{ type }} <span>/ {{ error.subtitle }}</span></div>
-        <h1>{{ error.title }}</h1>
-        <p class="page-intro">{{ error.description }}</p>
-        <div class="page-error-actions"><a class="primary-link" href="../index.html#/dashboard">返回工作台 <span aria-hidden="true">→</span></a><button type="button" @click="goBack">返回上一页</button></div>
-        <div class="error-help">{{ error.help }}</div>
-      </div>
-    </section>
-    <footer>AdminUI · 应用开发组件库</footer>
-  </main>
-</div>
-<script src="../vendor/vue/vue.global.prod.js"></script>
-<script src="../vendor/element-plus/index.full.min.js"></script>
-<script src="../vendor/element-plus/zh-cn.min.js"></script>
-<script src="pages.js?v=20261029-errors"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>页面示例 · AdminUI</title>
+        <link rel="stylesheet" href="../vendor/tabler/tabler.min.css" />
+        <link rel="stylesheet" href="../vendor/element-plus/index.css" />
+        <link rel="stylesheet" href="pages.css?v=20261029-auth" />
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <main class="page-shell">
+                <a class="page-brand" href="../index.html#/dashboard">
+                    <span>A</span>
+                    <strong>AdminUI</strong>
+                </a>
+                <section v-if="isAuth" class="auth-layout">
+                    <div class="auth-art" aria-hidden="true">
+                        <div class="auth-art-top">
+                            <span class="auth-art-mark">A</span>
+                            <span>ADMINUI WORKSPACE</span>
+                        </div>
+                        <div class="auth-art-copy">
+                            <span class="auth-art-label">YOUR WORKSPACE</span>
+                            <h2>
+                                让每一天的工作
+                                <br />
+                                更有条理。
+                            </h2>
+                            <p>
+                                一个清晰、顺手的工作空间，
+                                <br />
+                                从这里开始。
+                            </p>
+                        </div>
+                        <div class="auth-visual">
+                            <div class="auth-visual-bar">
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                                <span></span>
+                            </div>
+                            <div class="auth-visual-body">
+                                <div class="auth-visual-sidebar">
+                                    <b></b>
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                </div>
+                                <div class="auth-visual-content">
+                                    <div class="auth-visual-heading"></div>
+                                    <div class="auth-visual-cards">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+                                    <div class="auth-visual-chart">
+                                        <svg viewBox="0 0 190 55" preserveAspectRatio="none">
+                                            <path
+                                                d="M0 47 L28 38 L52 43 L80 25 L108 31 L136 16 L161 21 L190 6"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="auth-art-foot">
+                            <span></span>
+                            简单、有序，专注于重要的事
+                        </div>
+                    </div>
+                    <div class="page-card auth-form">
+                        <div class="page-kicker">{{ type === 'login' ? 'WELCOME BACK' : 'GET STARTED' }}</div>
+                        <h1>{{ type === 'login' ? '欢迎回来' : '创建账号' }}</h1>
+                        <p class="page-intro">{{ type === 'login' ? '登录你的工作空间，继续今天的工作。' : '填写以下信息，开始使用你的工作空间。' }}</p>
+                        <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent="submit">
+                            <el-form-item v-if="type === 'register'" label="姓名" prop="name">
+                                <el-input v-model="form.name" placeholder="请输入姓名" autocomplete="name" />
+                            </el-form-item>
+                            <el-form-item label="邮箱" prop="email">
+                                <el-input v-model="form.email" type="email" placeholder="name@example.com" autocomplete="email" />
+                            </el-form-item>
+                            <el-form-item label="密码" prop="password">
+                                <el-input
+                                    v-model="form.password"
+                                    type="password"
+                                    show-password
+                                    placeholder="请输入密码"
+                                    :autocomplete="type === 'login' ? 'current-password' : 'new-password'"
+                                />
+                            </el-form-item>
+                            <el-form-item v-if="type === 'register'" label="确认密码" prop="confirm">
+                                <el-input v-model="form.confirm" type="password" show-password placeholder="再次输入密码" autocomplete="new-password" />
+                            </el-form-item>
+                            <el-button type="primary" native-type="submit" class="page-submit">{{ type === 'login' ? '登 录' : '创建账号' }}</el-button>
+                        </el-form>
+                        <p class="page-switch" v-if="type === 'login'">
+                            还没有账号？
+                            <a href="?type=register">注册账号</a>
+                        </p>
+                        <p class="page-switch" v-else>
+                            已有账号？
+                            <a href="?type=login">返回登录</a>
+                        </p>
+                        <p class="page-demo-note" role="status">{{ notice || '页面示例：尚未连接账号服务。' }}</p>
+                    </div>
+                </section>
+                <section v-else class="error-layout">
+                    <div class="error-art" aria-hidden="true">
+                        <div class="error-orbit error-orbit-outer"></div>
+                        <div class="error-orbit error-orbit-inner"></div>
+                        <span class="error-spark error-spark-one">✳</span>
+                        <span class="error-spark error-spark-two">✦</span>
+                        <div class="error-illustration">
+                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                <g v-if="type==='403'">
+                                    <path d="M20 28v-7a12 12 0 0 1 24 0v7" />
+                                    <rect x="16" y="28" width="32" height="25" rx="5" />
+                                    <circle cx="32" cy="39" r="2" />
+                                    <path d="M32 41v4" />
+                                </g>
+                                <g v-else-if="type==='404'">
+                                    <path d="M19 9h20l10 10v30a5 5 0 0 1-5 5H19a5 5 0 0 1-5-5V14a5 5 0 0 1 5-5z" />
+                                    <path d="M39 9v11h10 M24 34l14 10 M38 34L24 44" />
+                                </g>
+                                <g v-else>
+                                    <rect x="13" y="12" width="38" height="17" rx="4" />
+                                    <rect x="13" y="35" width="38" height="17" rx="4" />
+                                    <path d="M21 20h.1 M21 43h.1 M29 20h14 M29 43h14" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="error-art-tag">
+                            <span></span>
+                            STATUS {{ type }}
+                        </div>
+                    </div>
+                    <div class="error-copy">
+                        <div class="error-eyebrow">
+                            <span></span>
+                            {{ error.label }}
+                        </div>
+                        <div class="error-code">
+                            {{ type }}
+                            <span>/ {{ error.subtitle }}</span>
+                        </div>
+                        <h1>{{ error.title }}</h1>
+                        <p class="page-intro">{{ error.description }}</p>
+                        <div class="page-error-actions">
+                            <a class="primary-link" href="../index.html#/dashboard">
+                                返回工作台
+                                <span aria-hidden="true">→</span>
+                            </a>
+                            <button type="button" @click="goBack">返回上一页</button>
+                        </div>
+                        <div class="error-help">{{ error.help }}</div>
+                    </div>
+                </section>
+                <footer>AdminUI · 应用开发组件库</footer>
+            </main>
+        </div>
+        <script src="../vendor/vue/vue.global.prod.js"></script>
+        <script src="../vendor/element-plus/index.full.min.js"></script>
+        <script src="../vendor/element-plus/zh-cn.min.js"></script>
+        <script src="pages.js?v=20261029-errors"></script>
+    </body>
 </html>

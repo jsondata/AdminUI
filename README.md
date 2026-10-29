@@ -207,7 +207,7 @@ const data = await AdminUI.request('/api/users?page=1', {
 });
 ```
 
-`AdminUI.createRequestClient()` 可选配置请求、响应和错误钩子；详见组件与接入指南。
+`AdminUI.createRequestClient()` 可选配置接口地址、超时、业务响应码和请求、响应、错误钩子；[接口配置示例](examples/api-config.js)与[组件与接入指南](docs/组件与接入.md)展示完整接线。
 
 基于 fetch，默认同源凭据、15 秒超时、JSON 响应。非 2xx 抛出包含状态码的 Error，204 返回 null。`responseType:'text'` 可读取文本。支持调用方 AbortSignal。不会猜测 code/data 等业务协议，也不会自动做身份续期、重试或错误弹窗。
 
@@ -268,3 +268,15 @@ menus: [{
 ## 补充示例
 
 组件中心现有表格固定列、复杂表头、单选与多选、单元格编辑、接口格式映射和本地分页示例；日期、弹层、图片预览与模拟上传、树搜索、滚动加载、响应式栅格和横向导航也有交互示例。图表页包含 ECharts 折线、面积、柱状、双轴、对数轴、散点及地图。上传和接口分页示例使用浏览器内数据，不连接服务器。地图数据来源和使用边界见 THIRD_PARTY_NOTICES.md。
+
+## 项目代码规范
+
+项目自行编写的 HTML、JavaScript、CSS、JSON 和 Python 使用 4 个空格缩进，代码按结构换行，避免将页面模板或业务逻辑压成一行。需要说明设计意图、边界条件或复杂逻辑时使用中文注释；组件库名称、API 名称等保留原文。第三方 `vendor/` 文件保持原样。
+
+仓库提供 `.editorconfig` 和 Prettier 配置。开发时可使用编辑器的 EditorConfig 和 Prettier 插件，也可在项目根目录运行：
+
+```bash
+npx --yes prettier@3.6.2 --write index.html 'src/**/*.{js,css}' 'demo/**/*.{js,css,json}' 'examples/**/*.{js,css,html,json}' 'tests/**/*.cjs' adminui.json
+```
+
+JavaScript 中的 `/* HTML */` 是 Prettier 识别 Vue 模板的格式标记，保留它可以在后续格式化时继续整理模板。Python 示例保持 4 空格缩进，可按项目规范单独维护。

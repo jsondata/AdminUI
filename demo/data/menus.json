@@ -1,289 +1,289 @@
 [
-  {
-    "title": "仪表盘",
-    "icon": "grid",
-    "children": [
-      {
-        "path": "/dashboard",
-        "title": "工作台",
-        "icon": "home"
-      },
-      {
-        "path": "/reports",
-        "title": "数据报表",
-        "icon": "chart"
-      }
-    ]
-  },
-  {
-    "title": "组件中心",
-    "icon": "layers",
-    "badge": "12",
-    "children": [
-      {
-        "path": "/components",
-        "title": "组件总览",
-        "icon": "panels"
-      },
-      {
-        "title": "基础组件",
-        "icon": "box",
+    {
+        "title": "仪表盘",
+        "icon": "grid",
         "children": [
-          {
-            "path": "/components/buttons",
-            "title": "按钮",
-            "icon": "plus"
-          },
-          {
-            "path": "/components/icons",
-            "title": "图标",
-            "icon": "box"
-          },
-          {
-            "path": "/components/selects",
-            "title": "下拉选择",
-            "icon": "check"
-          }
+            {
+                "path": "/dashboard",
+                "title": "工作台",
+                "icon": "home"
+            },
+            {
+                "path": "/reports",
+                "title": "数据报表",
+                "icon": "chart"
+            }
         ]
-      },
-      {
-        "path": "/components/charts",
-        "title": "图表",
-        "icon": "chart"
-      },
-      {
-        "path": "/components/navigation",
-        "title": "多级菜单",
-        "icon": "menu"
-      },
-      {
-        "title": "布局与展示",
-        "icon": "layout_group",
+    },
+    {
+        "title": "组件中心",
+        "icon": "layers",
+        "badge": "12",
         "children": [
-          {
-            "path": "/components/catalog/grid",
-            "title": "栅格布局",
-            "icon": "grid_demo"
-          },
-          {
-            "path": "/components/catalog/tabs",
-            "title": "选项卡",
-            "icon": "tabs_demo"
-          },
-          {
-            "path": "/components/catalog/progress",
-            "title": "进度条",
-            "icon": "progress_demo"
-          },
-          {
-            "path": "/components/catalog/panel",
-            "title": "面板",
-            "icon": "panel_demo"
-          },
-          {
-            "path": "/components/catalog/badge",
-            "title": "徽章",
-            "icon": "badge_demo"
-          },
-          {
-            "path": "/components/catalog/timeline",
-            "title": "时间线",
-            "icon": "timeline_demo"
-          },
-          {
-            "path": "/components/catalog/animation",
-            "title": "动画",
-            "icon": "animation_demo"
-          },
-          {
-            "path": "/components/catalog/utility",
-            "title": "辅助元素",
-            "icon": "utility_demo"
-          },
-          {
-            "path": "/components/catalog/carousel",
-            "title": "轮播",
-            "icon": "carousel_demo"
-          }
+            {
+                "path": "/components",
+                "title": "组件总览",
+                "icon": "panels"
+            },
+            {
+                "title": "基础组件",
+                "icon": "box",
+                "children": [
+                    {
+                        "path": "/components/buttons",
+                        "title": "按钮",
+                        "icon": "plus"
+                    },
+                    {
+                        "path": "/components/icons",
+                        "title": "图标",
+                        "icon": "box"
+                    },
+                    {
+                        "path": "/components/selects",
+                        "title": "下拉选择",
+                        "icon": "check"
+                    }
+                ]
+            },
+            {
+                "path": "/components/charts",
+                "title": "图表",
+                "icon": "chart"
+            },
+            {
+                "path": "/components/navigation",
+                "title": "多级菜单",
+                "icon": "menu"
+            },
+            {
+                "title": "布局与展示",
+                "icon": "layout_group",
+                "children": [
+                    {
+                        "path": "/components/catalog/grid",
+                        "title": "栅格布局",
+                        "icon": "grid_demo"
+                    },
+                    {
+                        "path": "/components/catalog/tabs",
+                        "title": "选项卡",
+                        "icon": "tabs_demo"
+                    },
+                    {
+                        "path": "/components/catalog/progress",
+                        "title": "进度条",
+                        "icon": "progress_demo"
+                    },
+                    {
+                        "path": "/components/catalog/panel",
+                        "title": "面板",
+                        "icon": "panel_demo"
+                    },
+                    {
+                        "path": "/components/catalog/badge",
+                        "title": "徽章",
+                        "icon": "badge_demo"
+                    },
+                    {
+                        "path": "/components/catalog/timeline",
+                        "title": "时间线",
+                        "icon": "timeline_demo"
+                    },
+                    {
+                        "path": "/components/catalog/animation",
+                        "title": "动画",
+                        "icon": "animation_demo"
+                    },
+                    {
+                        "path": "/components/catalog/utility",
+                        "title": "辅助元素",
+                        "icon": "utility_demo"
+                    },
+                    {
+                        "path": "/components/catalog/carousel",
+                        "title": "轮播",
+                        "icon": "carousel_demo"
+                    }
+                ]
+            },
+            {
+                "title": "输入与选择",
+                "icon": "form_group",
+                "children": [
+                    {
+                        "path": "/components/catalog/fields",
+                        "title": "表单元素",
+                        "icon": "fields_demo"
+                    },
+                    {
+                        "path": "/components/catalog/date",
+                        "title": "日期时间",
+                        "icon": "date_demo"
+                    },
+                    {
+                        "path": "/components/catalog/dropdown",
+                        "title": "下拉菜单",
+                        "icon": "dropdown_demo"
+                    },
+                    {
+                        "path": "/components/catalog/upload",
+                        "title": "文件上传",
+                        "icon": "upload_demo"
+                    },
+                    {
+                        "path": "/components/catalog/transfer",
+                        "title": "穿梭框",
+                        "icon": "transfer_demo"
+                    },
+                    {
+                        "path": "/components/catalog/tree",
+                        "title": "树形组件",
+                        "icon": "tree_demo"
+                    },
+                    {
+                        "path": "/components/catalog/color",
+                        "title": "颜色选择器",
+                        "icon": "color_demo"
+                    },
+                    {
+                        "path": "/components/catalog/slider",
+                        "title": "滑块",
+                        "icon": "slider_demo"
+                    },
+                    {
+                        "path": "/components/catalog/rate",
+                        "title": "评分",
+                        "icon": "rate_demo"
+                    }
+                ]
+            },
+            {
+                "title": "数据与反馈",
+                "icon": "data_group",
+                "children": [
+                    {
+                        "path": "/components/catalog/dialog",
+                        "title": "通用弹层",
+                        "icon": "dialog_demo"
+                    },
+                    {
+                        "path": "/components/catalog/static_table",
+                        "title": "静态表格",
+                        "icon": "static_demo"
+                    },
+                    {
+                        "path": "/components/catalog/table",
+                        "title": "表格组件",
+                        "icon": "table_demo"
+                    },
+                    {
+                        "path": "/components/catalog/pagination",
+                        "title": "分页",
+                        "icon": "pagination_demo"
+                    },
+                    {
+                        "path": "/components/catalog/tree_table",
+                        "title": "树形表格",
+                        "icon": "tree_table_demo"
+                    },
+                    {
+                        "path": "/components/catalog/flow",
+                        "title": "流加载",
+                        "icon": "flow_demo"
+                    },
+                    {
+                        "path": "/components/catalog/code",
+                        "title": "代码展示",
+                        "icon": "code_demo"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "title": "输入与选择",
-        "icon": "form_group",
+    },
+    {
+        "title": "开发示例",
+        "icon": "form",
         "children": [
-          {
-            "path": "/components/catalog/fields",
-            "title": "表单元素",
-            "icon": "fields_demo"
-          },
-          {
-            "path": "/components/catalog/date",
-            "title": "日期时间",
-            "icon": "date_demo"
-          },
-          {
-            "path": "/components/catalog/dropdown",
-            "title": "下拉菜单",
-            "icon": "dropdown_demo"
-          },
-          {
-            "path": "/components/catalog/upload",
-            "title": "文件上传",
-            "icon": "upload_demo"
-          },
-          {
-            "path": "/components/catalog/transfer",
-            "title": "穿梭框",
-            "icon": "transfer_demo"
-          },
-          {
-            "path": "/components/catalog/tree",
-            "title": "树形组件",
-            "icon": "tree_demo"
-          },
-          {
-            "path": "/components/catalog/color",
-            "title": "颜色选择器",
-            "icon": "color_demo"
-          },
-          {
-            "path": "/components/catalog/slider",
-            "title": "滑块",
-            "icon": "slider_demo"
-          },
-          {
-            "path": "/components/catalog/rate",
-            "title": "评分",
-            "icon": "rate_demo"
-          }
+            {
+                "path": "/users",
+                "title": "用户管理",
+                "icon": "user"
+            },
+            {
+                "path": "/forms",
+                "title": "表单构建",
+                "icon": "list"
+            }
         ]
-      },
-      {
-        "title": "数据与反馈",
-        "icon": "data_group",
+    },
+    {
+        "title": "开发文档",
+        "icon": "book",
         "children": [
-          {
-            "path": "/components/catalog/dialog",
-            "title": "通用弹层",
-            "icon": "dialog_demo"
-          },
-          {
-            "path": "/components/catalog/static_table",
-            "title": "静态表格",
-            "icon": "static_demo"
-          },
-          {
-            "path": "/components/catalog/table",
-            "title": "表格组件",
-            "icon": "table_demo"
-          },
-          {
-            "path": "/components/catalog/pagination",
-            "title": "分页",
-            "icon": "pagination_demo"
-          },
-          {
-            "path": "/components/catalog/tree_table",
-            "title": "树形表格",
-            "icon": "tree_table_demo"
-          },
-          {
-            "path": "/components/catalog/flow",
-            "title": "流加载",
-            "icon": "flow_demo"
-          },
-          {
-            "path": "/components/catalog/code",
-            "title": "代码展示",
-            "icon": "code_demo"
-          }
+            {
+                "path": "/docs",
+                "title": "使用文档",
+                "icon": "file"
+            }
         ]
-      }
-    ]
-  },
-  {
-    "title": "开发示例",
-    "icon": "form",
-    "children": [
-      {
-        "path": "/users",
-        "title": "用户管理",
-        "icon": "user"
-      },
-      {
-        "path": "/forms",
-        "title": "表单构建",
-        "icon": "list"
-      }
-    ]
-  },
-  {
-    "title": "开发文档",
-    "icon": "book",
-    "children": [
-      {
-        "path": "/docs",
-        "title": "使用文档",
-        "icon": "file"
-      }
-    ]
-  },
-  {
-    "title": "系统设置",
-    "icon": "settings",
-    "children": [
-      {
-        "path": "/settings",
-        "title": "偏好设置",
-        "icon": "sliders"
-      }
-    ]
-  },
-  {
-    "title": "页面示例",
-    "icon": "shield",
-    "children": [
-      {
-        "path": "/pages",
-        "title": "页面总览",
-        "icon": "overview"
-      },
-      {
-        "title": "登录页",
-        "icon": "login",
-        "href": "examples/pages.html?type=login",
-        "target": "_blank"
-      },
-      {
-        "title": "注册页",
-        "icon": "register",
-        "href": "examples/pages.html?type=register",
-        "target": "_blank"
-      },
-      {
-        "title": "403 无权限",
-        "icon": "lock",
-        "href": "examples/pages.html?type=403",
-        "target": "_blank"
-      },
-      {
-        "title": "404 页面不存在",
-        "icon": "missing",
-        "href": "examples/pages.html?type=404",
-        "target": "_blank"
-      },
-      {
-        "title": "500 服务器错误",
-        "icon": "server",
-        "href": "examples/pages.html?type=500",
-        "target": "_blank"
-      },
-      {
-        "title": "502 网关错误",
-        "icon": "network",
-        "href": "examples/pages.html?type=502",
-        "target": "_blank"
-      }
-    ]
-  }
+    },
+    {
+        "title": "系统设置",
+        "icon": "settings",
+        "children": [
+            {
+                "path": "/settings",
+                "title": "偏好设置",
+                "icon": "sliders"
+            }
+        ]
+    },
+    {
+        "title": "页面示例",
+        "icon": "shield",
+        "children": [
+            {
+                "path": "/pages",
+                "title": "页面总览",
+                "icon": "overview"
+            },
+            {
+                "title": "登录页",
+                "icon": "login",
+                "href": "examples/pages.html?type=login",
+                "target": "_blank"
+            },
+            {
+                "title": "注册页",
+                "icon": "register",
+                "href": "examples/pages.html?type=register",
+                "target": "_blank"
+            },
+            {
+                "title": "403 无权限",
+                "icon": "lock",
+                "href": "examples/pages.html?type=403",
+                "target": "_blank"
+            },
+            {
+                "title": "404 页面不存在",
+                "icon": "missing",
+                "href": "examples/pages.html?type=404",
+                "target": "_blank"
+            },
+            {
+                "title": "500 服务器错误",
+                "icon": "server",
+                "href": "examples/pages.html?type=500",
+                "target": "_blank"
+            },
+            {
+                "title": "502 网关错误",
+                "icon": "network",
+                "href": "examples/pages.html?type=502",
+                "target": "_blank"
+            }
+        ]
+    }
 ]

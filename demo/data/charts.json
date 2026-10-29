@@ -1,1486 +1,1176 @@
 {
-  "days": [
-    "周一",
-    "周二",
-    "周三",
-    "周四",
-    "周五",
-    "周六",
-    "周日"
-  ],
-  "datasets": [
-    {
-      "title": "标准折线图",
-      "subtitle": "未来一周气温变化",
-      "type": "line",
-      "names": [
-        "最高气温",
-        "最低气温"
-      ],
-      "series": [
-        [
-          12,
-          11,
-          15,
-          13,
-          12,
-          13,
-          10
-        ],
-        [
-          1,
-          -2,
-          2,
-          5,
-          3,
-          2,
-          0
-        ]
-      ],
-      "unit": "°C"
-    },
-    {
-      "title": "堆积面积图",
-      "subtitle": "不同渠道访问趋势",
-      "type": "area",
-      "names": [
-        "邮件营销",
-        "联盟广告",
-        "视频广告",
-        "直接访问",
-        "搜索引擎"
-      ],
-      "series": [
-        [
-          120,
-          132,
-          101,
-          134,
-          90,
-          230,
-          210
-        ],
-        [
-          220,
-          182,
-          191,
-          234,
-          290,
-          330,
-          310
-        ],
-        [
-          150,
-          232,
-          201,
-          154,
-          190,
-          330,
-          410
-        ],
-        [
-          320,
-          332,
-          301,
-          334,
-          390,
-          430,
-          410
-        ],
-        [
-          820,
-          932,
-          901,
-          934,
-          1290,
-          1330,
-          1320
-        ]
-      ]
-    },
-    {
-      "title": "多系列折线图",
-      "subtitle": "各渠道每日访问量",
-      "type": "line",
-      "names": [
-        "邮件营销",
-        "联盟广告",
-        "视频广告",
-        "直接访问",
-        "搜索引擎"
-      ],
-      "series": [
-        [
-          120,
-          132,
-          101,
-          134,
-          90,
-          230,
-          210
-        ],
-        [
-          220,
-          182,
-          191,
-          234,
-          290,
-          330,
-          310
-        ],
-        [
-          150,
-          232,
-          201,
-          154,
-          190,
-          330,
-          410
-        ],
-        [
-          320,
-          332,
-          301,
-          334,
-          390,
-          430,
-          410
-        ],
-        [
-          820,
-          932,
-          901,
-          934,
-          1290,
-          1330,
-          1320
-        ]
-      ]
-    },
-    {
-      "title": "平滑面积图",
-      "subtitle": "近七日访问量",
-      "type": "smooth",
-      "names": [
-        "访问量",
-        "访客数"
-      ],
-      "series": [
-        [
-          180,
-          240,
-          210,
-          320,
-          280,
-          390,
-          350
-        ],
-        [
-          110,
-          150,
-          140,
-          210,
-          190,
-          250,
-          230
-        ]
-      ]
-    },
-    {
-      "title": "分组柱状图",
-      "subtitle": "各季度业务收入",
-      "type": "bar",
-      "names": [
-        "产品销售",
-        "服务收入"
-      ],
-      "labels": [
-        "第一季度",
-        "第二季度",
-        "第三季度",
-        "第四季度"
-      ],
-      "series": [
-        [
-          210,
-          285,
-          265,
-          360
-        ],
-        [
-          140,
-          190,
-          225,
-          280
-        ]
-      ]
-    },
-    {
-      "title": "堆积柱状图",
-      "subtitle": "各渠道每周贡献",
-      "type": "stackbar",
-      "names": [
-        "自然搜索",
-        "直接访问",
-        "社交媒体"
-      ],
-      "series": [
-        [
-          120,
-          132,
-          101,
-          134,
-          90,
-          230,
-          210
-        ],
-        [
-          220,
-          182,
-          191,
-          234,
-          290,
-          330,
-          310
-        ],
-        [
-          150,
-          232,
-          201,
-          154,
-          190,
-          330,
-          410
-        ]
-      ]
-    },
-    {
-      "title": "环形图",
-      "subtitle": "访问来源占比",
-      "type": "donut",
-      "names": [
-        "自然搜索",
-        "直接访问",
-        "社交媒体",
-        "其他"
-      ],
-      "series": [
-        42,
-        28,
-        18,
-        12
-      ]
-    },
-    {
-      "title": "横向条形图",
-      "subtitle": "项目完成数量",
-      "type": "horizontal",
-      "names": [
-        "项目数量"
-      ],
-      "labels": [
-        "设计",
-        "研发",
-        "运营",
-        "市场",
-        "支持"
-      ],
-      "series": [
-        [
-          68,
-          85,
-          52,
-          73,
-          40
-        ]
-      ]
-    },
-    {
-      "title": "双数值轴折线图",
-      "subtitle": "不等距数据对比",
-      "type": "scatterline",
-      "names": [
-        "数据 A",
-        "数据 B"
-      ],
-      "series": [
-        [
-          [
-            1,
-            8
-          ],
-          [
-            3,
-            6
-          ],
-          [
-            7,
-            11
-          ],
-          [
-            12,
-            5
-          ],
-          [
-            18,
-            9
-          ]
-        ],
-        [
-          [
-            1,
-            2
-          ],
-          [
-            4,
-            4
-          ],
-          [
-            8,
-            3
-          ],
-          [
-            13,
-            7
-          ],
-          [
-            18,
-            6
-          ]
-        ]
-      ]
-    },
-    {
-      "title": "对数轴",
-      "subtitle": "不同增长速度对比",
-      "type": "log",
-      "names": [
-        "系列 A",
-        "系列 B"
-      ],
-      "series": [
-        [
-          1,
-          2,
-          4,
-          8,
-          16,
-          32,
-          64
-        ],
-        [
-          1,
-          3,
-          9,
-          27,
-          81,
-          243,
-          729
-        ]
-      ]
-    },
-    {
-      "title": "双 Y 轴图表",
-      "subtitle": "访问量与转化率",
-      "type": "dual",
-      "names": [
-        "访问量",
-        "转化率"
-      ],
-      "series": [
-        [
-          320,
-          400,
-          380,
-          500,
-          460,
-          560,
-          610
-        ],
-        [
-          3.2,
-          3.8,
-          3.4,
-          4.1,
-          4.4,
-          4.6,
-          4.8
-        ]
-      ]
-    },
-    {
-      "title": "散点图",
-      "subtitle": "项目投入与产出",
-      "type": "scatter",
-      "names": [
-        "项目样本"
-      ],
-      "series": [
-        [
-          [
-            10,
-            18
-          ],
-          [
-            18,
-            25
-          ],
-          [
-            25,
-            20
-          ],
-          [
-            32,
-            38
-          ],
-          [
-            40,
-            35
-          ],
-          [
-            52,
-            55
-          ],
-          [
-            62,
-            49
-          ],
-          [
-            70,
-            68
-          ],
-          [
-            82,
-            73
-          ]
-        ]
-      ]
-    },
-    {
-      "title": "中国地图",
-      "subtitle": "各省级地区演示数据",
-      "type": "map",
-      "map": "adminui-china",
-      "file": "vendor/echarts/maps/china.json",
-      "values": [
+    "days": ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    "datasets": [
         {
-          "name": "北京市",
-          "value": 17
+            "title": "标准折线图",
+            "subtitle": "未来一周气温变化",
+            "type": "line",
+            "names": ["最高气温", "最低气温"],
+            "series": [
+                [12, 11, 15, 13, 12, 13, 10],
+                [1, -2, 2, 5, 3, 2, 0]
+            ],
+            "unit": "°C"
         },
         {
-          "name": "天津市",
-          "value": 54
+            "title": "堆积面积图",
+            "subtitle": "不同渠道访问趋势",
+            "type": "area",
+            "names": ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
+            "series": [
+                [120, 132, 101, 134, 90, 230, 210],
+                [220, 182, 191, 234, 290, 330, 310],
+                [150, 232, 201, 154, 190, 330, 410],
+                [320, 332, 301, 334, 390, 430, 410],
+                [820, 932, 901, 934, 1290, 1330, 1320]
+            ]
         },
         {
-          "name": "河北省",
-          "value": 91
+            "title": "多系列折线图",
+            "subtitle": "各渠道每日访问量",
+            "type": "line",
+            "names": ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
+            "series": [
+                [120, 132, 101, 134, 90, 230, 210],
+                [220, 182, 191, 234, 290, 330, 310],
+                [150, 232, 201, 154, 190, 330, 410],
+                [320, 332, 301, 334, 390, 430, 410],
+                [820, 932, 901, 934, 1290, 1330, 1320]
+            ]
         },
         {
-          "name": "山西省",
-          "value": 27
+            "title": "平滑面积图",
+            "subtitle": "近七日访问量",
+            "type": "smooth",
+            "names": ["访问量", "访客数"],
+            "series": [
+                [180, 240, 210, 320, 280, 390, 350],
+                [110, 150, 140, 210, 190, 250, 230]
+            ]
         },
         {
-          "name": "内蒙古自治区",
-          "value": 64
+            "title": "分组柱状图",
+            "subtitle": "各季度业务收入",
+            "type": "bar",
+            "names": ["产品销售", "服务收入"],
+            "labels": ["第一季度", "第二季度", "第三季度", "第四季度"],
+            "series": [
+                [210, 285, 265, 360],
+                [140, 190, 225, 280]
+            ]
         },
         {
-          "name": "辽宁省",
-          "value": 0
+            "title": "堆积柱状图",
+            "subtitle": "各渠道每周贡献",
+            "type": "stackbar",
+            "names": ["自然搜索", "直接访问", "社交媒体"],
+            "series": [
+                [120, 132, 101, 134, 90, 230, 210],
+                [220, 182, 191, 234, 290, 330, 310],
+                [150, 232, 201, 154, 190, 330, 410]
+            ]
         },
         {
-          "name": "吉林省",
-          "value": 37
+            "title": "环形图",
+            "subtitle": "访问来源占比",
+            "type": "donut",
+            "names": ["自然搜索", "直接访问", "社交媒体", "其他"],
+            "series": [42, 28, 18, 12]
         },
         {
-          "name": "黑龙江省",
-          "value": 74
+            "title": "横向条形图",
+            "subtitle": "项目完成数量",
+            "type": "horizontal",
+            "names": ["项目数量"],
+            "labels": ["设计", "研发", "运营", "市场", "支持"],
+            "series": [[68, 85, 52, 73, 40]]
         },
         {
-          "name": "上海市",
-          "value": 10
+            "title": "双数值轴折线图",
+            "subtitle": "不等距数据对比",
+            "type": "scatterline",
+            "names": ["数据 A", "数据 B"],
+            "series": [
+                [
+                    [1, 8],
+                    [3, 6],
+                    [7, 11],
+                    [12, 5],
+                    [18, 9]
+                ],
+                [
+                    [1, 2],
+                    [4, 4],
+                    [8, 3],
+                    [13, 7],
+                    [18, 6]
+                ]
+            ]
         },
         {
-          "name": "江苏省",
-          "value": 47
+            "title": "对数轴",
+            "subtitle": "不同增长速度对比",
+            "type": "log",
+            "names": ["系列 A", "系列 B"],
+            "series": [
+                [1, 2, 4, 8, 16, 32, 64],
+                [1, 3, 9, 27, 81, 243, 729]
+            ]
         },
         {
-          "name": "浙江省",
-          "value": 84
+            "title": "双 Y 轴图表",
+            "subtitle": "访问量与转化率",
+            "type": "dual",
+            "names": ["访问量", "转化率"],
+            "series": [
+                [320, 400, 380, 500, 460, 560, 610],
+                [3.2, 3.8, 3.4, 4.1, 4.4, 4.6, 4.8]
+            ]
         },
         {
-          "name": "安徽省",
-          "value": 20
+            "title": "散点图",
+            "subtitle": "项目投入与产出",
+            "type": "scatter",
+            "names": ["项目样本"],
+            "series": [
+                [
+                    [10, 18],
+                    [18, 25],
+                    [25, 20],
+                    [32, 38],
+                    [40, 35],
+                    [52, 55],
+                    [62, 49],
+                    [70, 68],
+                    [82, 73]
+                ]
+            ]
         },
         {
-          "name": "福建省",
-          "value": 57
+            "title": "中国地图",
+            "subtitle": "各省级地区演示数据",
+            "type": "map",
+            "map": "adminui-china",
+            "file": "vendor/echarts/maps/china.json",
+            "values": [
+                {
+                    "name": "北京市",
+                    "value": 17
+                },
+                {
+                    "name": "天津市",
+                    "value": 54
+                },
+                {
+                    "name": "河北省",
+                    "value": 91
+                },
+                {
+                    "name": "山西省",
+                    "value": 27
+                },
+                {
+                    "name": "内蒙古自治区",
+                    "value": 64
+                },
+                {
+                    "name": "辽宁省",
+                    "value": 0
+                },
+                {
+                    "name": "吉林省",
+                    "value": 37
+                },
+                {
+                    "name": "黑龙江省",
+                    "value": 74
+                },
+                {
+                    "name": "上海市",
+                    "value": 10
+                },
+                {
+                    "name": "江苏省",
+                    "value": 47
+                },
+                {
+                    "name": "浙江省",
+                    "value": 84
+                },
+                {
+                    "name": "安徽省",
+                    "value": 20
+                },
+                {
+                    "name": "福建省",
+                    "value": 57
+                },
+                {
+                    "name": "江西省",
+                    "value": 94
+                },
+                {
+                    "name": "山东省",
+                    "value": 30
+                },
+                {
+                    "name": "河南省",
+                    "value": 67
+                },
+                {
+                    "name": "湖北省",
+                    "value": 3
+                },
+                {
+                    "name": "湖南省",
+                    "value": 40
+                },
+                {
+                    "name": "广东省",
+                    "value": 77
+                },
+                {
+                    "name": "广西壮族自治区",
+                    "value": 13
+                },
+                {
+                    "name": "海南省",
+                    "value": 50
+                },
+                {
+                    "name": "重庆市",
+                    "value": 87
+                },
+                {
+                    "name": "四川省",
+                    "value": 23
+                },
+                {
+                    "name": "贵州省",
+                    "value": 60
+                },
+                {
+                    "name": "云南省",
+                    "value": 97
+                },
+                {
+                    "name": "西藏自治区",
+                    "value": 33
+                },
+                {
+                    "name": "陕西省",
+                    "value": 70
+                },
+                {
+                    "name": "甘肃省",
+                    "value": 6
+                },
+                {
+                    "name": "青海省",
+                    "value": 43
+                },
+                {
+                    "name": "宁夏回族自治区",
+                    "value": 80
+                },
+                {
+                    "name": "新疆维吾尔自治区",
+                    "value": 16
+                },
+                {
+                    "name": "台湾省",
+                    "value": 53
+                },
+                {
+                    "name": "香港特别行政区",
+                    "value": 90
+                },
+                {
+                    "name": "澳门特别行政区",
+                    "value": 26
+                },
+                {
+                    "name": "",
+                    "value": 63
+                }
+            ]
         },
         {
-          "name": "江西省",
-          "value": 94
-        },
-        {
-          "name": "山东省",
-          "value": 30
-        },
-        {
-          "name": "河南省",
-          "value": 67
-        },
-        {
-          "name": "湖北省",
-          "value": 3
-        },
-        {
-          "name": "湖南省",
-          "value": 40
-        },
-        {
-          "name": "广东省",
-          "value": 77
-        },
-        {
-          "name": "广西壮族自治区",
-          "value": 13
-        },
-        {
-          "name": "海南省",
-          "value": 50
-        },
-        {
-          "name": "重庆市",
-          "value": 87
-        },
-        {
-          "name": "四川省",
-          "value": 23
-        },
-        {
-          "name": "贵州省",
-          "value": 60
-        },
-        {
-          "name": "云南省",
-          "value": 97
-        },
-        {
-          "name": "西藏自治区",
-          "value": 33
-        },
-        {
-          "name": "陕西省",
-          "value": 70
-        },
-        {
-          "name": "甘肃省",
-          "value": 6
-        },
-        {
-          "name": "青海省",
-          "value": 43
-        },
-        {
-          "name": "宁夏回族自治区",
-          "value": 80
-        },
-        {
-          "name": "新疆维吾尔自治区",
-          "value": 16
-        },
-        {
-          "name": "台湾省",
-          "value": 53
-        },
-        {
-          "name": "香港特别行政区",
-          "value": 90
-        },
-        {
-          "name": "澳门特别行政区",
-          "value": 26
-        },
-        {
-          "name": "",
-          "value": 63
+            "title": "世界地图",
+            "subtitle": "各国家和地区演示数据",
+            "type": "map",
+            "map": "adminui-world",
+            "file": "vendor/echarts/maps/world.json",
+            "values": [
+                {
+                    "name": "Somalia",
+                    "value": 17
+                },
+                {
+                    "name": "Liechtenstein",
+                    "value": 54
+                },
+                {
+                    "name": "Morocco",
+                    "value": 91
+                },
+                {
+                    "name": "W. Sahara",
+                    "value": 27
+                },
+                {
+                    "name": "Serbia",
+                    "value": 64
+                },
+                {
+                    "name": "Afghanistan",
+                    "value": 0
+                },
+                {
+                    "name": "Angola",
+                    "value": 37
+                },
+                {
+                    "name": "Albania",
+                    "value": 74
+                },
+                {
+                    "name": "Aland",
+                    "value": 10
+                },
+                {
+                    "name": "Andorra",
+                    "value": 47
+                },
+                {
+                    "name": "United Arab Emirates",
+                    "value": 84
+                },
+                {
+                    "name": "Argentina",
+                    "value": 20
+                },
+                {
+                    "name": "Armenia",
+                    "value": 57
+                },
+                {
+                    "name": "American Samoa",
+                    "value": 94
+                },
+                {
+                    "name": "Fr. S. Antarctic Lands",
+                    "value": 30
+                },
+                {
+                    "name": "Antigua and Barb.",
+                    "value": 67
+                },
+                {
+                    "name": "Australia",
+                    "value": 3
+                },
+                {
+                    "name": "Austria",
+                    "value": 40
+                },
+                {
+                    "name": "Azerbaijan",
+                    "value": 77
+                },
+                {
+                    "name": "Burundi",
+                    "value": 13
+                },
+                {
+                    "name": "Belgium",
+                    "value": 50
+                },
+                {
+                    "name": "Benin",
+                    "value": 87
+                },
+                {
+                    "name": "Burkina Faso",
+                    "value": 23
+                },
+                {
+                    "name": "Bangladesh",
+                    "value": 60
+                },
+                {
+                    "name": "Bulgaria",
+                    "value": 97
+                },
+                {
+                    "name": "Bahrain",
+                    "value": 33
+                },
+                {
+                    "name": "Bahamas",
+                    "value": 70
+                },
+                {
+                    "name": "Bosnia and Herz.",
+                    "value": 6
+                },
+                {
+                    "name": "Belarus",
+                    "value": 43
+                },
+                {
+                    "name": "Belize",
+                    "value": 80
+                },
+                {
+                    "name": "Bermuda",
+                    "value": 16
+                },
+                {
+                    "name": "Bolivia",
+                    "value": 53
+                },
+                {
+                    "name": "Brazil",
+                    "value": 90
+                },
+                {
+                    "name": "Barbados",
+                    "value": 26
+                },
+                {
+                    "name": "Brunei",
+                    "value": 63
+                },
+                {
+                    "name": "Bhutan",
+                    "value": 100
+                },
+                {
+                    "name": "Botswana",
+                    "value": 36
+                },
+                {
+                    "name": "Central African Rep.",
+                    "value": 73
+                },
+                {
+                    "name": "Canada",
+                    "value": 9
+                },
+                {
+                    "name": "Switzerland",
+                    "value": 46
+                },
+                {
+                    "name": "Chile",
+                    "value": 83
+                },
+                {
+                    "name": "China",
+                    "value": 19
+                },
+                {
+                    "name": "Côte d'Ivoire",
+                    "value": 56
+                },
+                {
+                    "name": "Cameroon",
+                    "value": 93
+                },
+                {
+                    "name": "Dem. Rep. Congo",
+                    "value": 29
+                },
+                {
+                    "name": "Congo",
+                    "value": 66
+                },
+                {
+                    "name": "Colombia",
+                    "value": 2
+                },
+                {
+                    "name": "Comoros",
+                    "value": 39
+                },
+                {
+                    "name": "Cape Verde",
+                    "value": 76
+                },
+                {
+                    "name": "Costa Rica",
+                    "value": 12
+                },
+                {
+                    "name": "Cuba",
+                    "value": 49
+                },
+                {
+                    "name": "Curaçao",
+                    "value": 86
+                },
+                {
+                    "name": "Cayman Is.",
+                    "value": 22
+                },
+                {
+                    "name": "N. Cyprus",
+                    "value": 59
+                },
+                {
+                    "name": "Cyprus",
+                    "value": 96
+                },
+                {
+                    "name": "Czech Rep.",
+                    "value": 32
+                },
+                {
+                    "name": "Germany",
+                    "value": 69
+                },
+                {
+                    "name": "Djibouti",
+                    "value": 5
+                },
+                {
+                    "name": "Dominica",
+                    "value": 42
+                },
+                {
+                    "name": "Denmark",
+                    "value": 79
+                },
+                {
+                    "name": "Dominican Rep.",
+                    "value": 15
+                },
+                {
+                    "name": "Algeria",
+                    "value": 52
+                },
+                {
+                    "name": "Ecuador",
+                    "value": 89
+                },
+                {
+                    "name": "Egypt",
+                    "value": 25
+                },
+                {
+                    "name": "Eritrea",
+                    "value": 62
+                },
+                {
+                    "name": "Spain",
+                    "value": 99
+                },
+                {
+                    "name": "Estonia",
+                    "value": 35
+                },
+                {
+                    "name": "Ethiopia",
+                    "value": 72
+                },
+                {
+                    "name": "Finland",
+                    "value": 8
+                },
+                {
+                    "name": "Fiji",
+                    "value": 45
+                },
+                {
+                    "name": "Falkland Is.",
+                    "value": 82
+                },
+                {
+                    "name": "France",
+                    "value": 18
+                },
+                {
+                    "name": "Faeroe Is.",
+                    "value": 55
+                },
+                {
+                    "name": "Micronesia",
+                    "value": 92
+                },
+                {
+                    "name": "Gabon",
+                    "value": 28
+                },
+                {
+                    "name": "United Kingdom",
+                    "value": 65
+                },
+                {
+                    "name": "Georgia",
+                    "value": 1
+                },
+                {
+                    "name": "Ghana",
+                    "value": 38
+                },
+                {
+                    "name": "Guinea",
+                    "value": 75
+                },
+                {
+                    "name": "Gambia",
+                    "value": 11
+                },
+                {
+                    "name": "Guinea-Bissau",
+                    "value": 48
+                },
+                {
+                    "name": "Eq. Guinea",
+                    "value": 85
+                },
+                {
+                    "name": "Greece",
+                    "value": 21
+                },
+                {
+                    "name": "Grenada",
+                    "value": 58
+                },
+                {
+                    "name": "Greenland",
+                    "value": 95
+                },
+                {
+                    "name": "Guatemala",
+                    "value": 31
+                },
+                {
+                    "name": "Guam",
+                    "value": 68
+                },
+                {
+                    "name": "Guyana",
+                    "value": 4
+                },
+                {
+                    "name": "Heard I. and McDonald Is.",
+                    "value": 41
+                },
+                {
+                    "name": "Honduras",
+                    "value": 78
+                },
+                {
+                    "name": "Croatia",
+                    "value": 14
+                },
+                {
+                    "name": "Haiti",
+                    "value": 51
+                },
+                {
+                    "name": "Hungary",
+                    "value": 88
+                },
+                {
+                    "name": "Indonesia",
+                    "value": 24
+                },
+                {
+                    "name": "Isle of Man",
+                    "value": 61
+                },
+                {
+                    "name": "India",
+                    "value": 98
+                },
+                {
+                    "name": "Br. Indian Ocean Ter.",
+                    "value": 34
+                },
+                {
+                    "name": "Ireland",
+                    "value": 71
+                },
+                {
+                    "name": "Iran",
+                    "value": 7
+                },
+                {
+                    "name": "Iraq",
+                    "value": 44
+                },
+                {
+                    "name": "Iceland",
+                    "value": 81
+                },
+                {
+                    "name": "Israel",
+                    "value": 17
+                },
+                {
+                    "name": "Italy",
+                    "value": 54
+                },
+                {
+                    "name": "Jamaica",
+                    "value": 91
+                },
+                {
+                    "name": "Jersey",
+                    "value": 27
+                },
+                {
+                    "name": "Jordan",
+                    "value": 64
+                },
+                {
+                    "name": "Japan",
+                    "value": 0
+                },
+                {
+                    "name": "Siachen Glacier",
+                    "value": 37
+                },
+                {
+                    "name": "Kazakhstan",
+                    "value": 74
+                },
+                {
+                    "name": "Kenya",
+                    "value": 10
+                },
+                {
+                    "name": "Kyrgyzstan",
+                    "value": 47
+                },
+                {
+                    "name": "Cambodia",
+                    "value": 84
+                },
+                {
+                    "name": "Kiribati",
+                    "value": 20
+                },
+                {
+                    "name": "Korea",
+                    "value": 57
+                },
+                {
+                    "name": "Kuwait",
+                    "value": 94
+                },
+                {
+                    "name": "Lao PDR",
+                    "value": 30
+                },
+                {
+                    "name": "Lebanon",
+                    "value": 67
+                },
+                {
+                    "name": "Liberia",
+                    "value": 3
+                },
+                {
+                    "name": "Libya",
+                    "value": 40
+                },
+                {
+                    "name": "Saint Lucia",
+                    "value": 77
+                },
+                {
+                    "name": "Sri Lanka",
+                    "value": 13
+                },
+                {
+                    "name": "Lesotho",
+                    "value": 50
+                },
+                {
+                    "name": "Lithuania",
+                    "value": 87
+                },
+                {
+                    "name": "Luxembourg",
+                    "value": 23
+                },
+                {
+                    "name": "Latvia",
+                    "value": 60
+                },
+                {
+                    "name": "Moldova",
+                    "value": 97
+                },
+                {
+                    "name": "Madagascar",
+                    "value": 33
+                },
+                {
+                    "name": "Mexico",
+                    "value": 70
+                },
+                {
+                    "name": "Macedonia",
+                    "value": 6
+                },
+                {
+                    "name": "Mali",
+                    "value": 43
+                },
+                {
+                    "name": "Malta",
+                    "value": 80
+                },
+                {
+                    "name": "Myanmar",
+                    "value": 16
+                },
+                {
+                    "name": "Montenegro",
+                    "value": 53
+                },
+                {
+                    "name": "Mongolia",
+                    "value": 90
+                },
+                {
+                    "name": "N. Mariana Is.",
+                    "value": 26
+                },
+                {
+                    "name": "Mozambique",
+                    "value": 63
+                },
+                {
+                    "name": "Mauritania",
+                    "value": 100
+                },
+                {
+                    "name": "Montserrat",
+                    "value": 36
+                },
+                {
+                    "name": "Mauritius",
+                    "value": 73
+                },
+                {
+                    "name": "Malawi",
+                    "value": 9
+                },
+                {
+                    "name": "Malaysia",
+                    "value": 46
+                },
+                {
+                    "name": "Namibia",
+                    "value": 83
+                },
+                {
+                    "name": "New Caledonia",
+                    "value": 19
+                },
+                {
+                    "name": "Niger",
+                    "value": 56
+                },
+                {
+                    "name": "Nigeria",
+                    "value": 93
+                },
+                {
+                    "name": "Nicaragua",
+                    "value": 29
+                },
+                {
+                    "name": "Niue",
+                    "value": 66
+                },
+                {
+                    "name": "Netherlands",
+                    "value": 2
+                },
+                {
+                    "name": "Norway",
+                    "value": 39
+                },
+                {
+                    "name": "Nepal",
+                    "value": 76
+                },
+                {
+                    "name": "New Zealand",
+                    "value": 12
+                },
+                {
+                    "name": "Oman",
+                    "value": 49
+                },
+                {
+                    "name": "Pakistan",
+                    "value": 86
+                },
+                {
+                    "name": "Panama",
+                    "value": 22
+                },
+                {
+                    "name": "Peru",
+                    "value": 59
+                },
+                {
+                    "name": "Philippines",
+                    "value": 96
+                },
+                {
+                    "name": "Palau",
+                    "value": 32
+                },
+                {
+                    "name": "Papua New Guinea",
+                    "value": 69
+                },
+                {
+                    "name": "Poland",
+                    "value": 5
+                },
+                {
+                    "name": "Puerto Rico",
+                    "value": 42
+                },
+                {
+                    "name": "Dem. Rep. Korea",
+                    "value": 79
+                },
+                {
+                    "name": "Portugal",
+                    "value": 15
+                },
+                {
+                    "name": "Paraguay",
+                    "value": 52
+                },
+                {
+                    "name": "Palestine",
+                    "value": 89
+                },
+                {
+                    "name": "Fr. Polynesia",
+                    "value": 25
+                },
+                {
+                    "name": "Qatar",
+                    "value": 62
+                },
+                {
+                    "name": "Romania",
+                    "value": 99
+                },
+                {
+                    "name": "Russia",
+                    "value": 35
+                },
+                {
+                    "name": "Rwanda",
+                    "value": 72
+                },
+                {
+                    "name": "Saudi Arabia",
+                    "value": 8
+                },
+                {
+                    "name": "Sudan",
+                    "value": 45
+                },
+                {
+                    "name": "S. Sudan",
+                    "value": 82
+                },
+                {
+                    "name": "Senegal",
+                    "value": 18
+                },
+                {
+                    "name": "Singapore",
+                    "value": 55
+                },
+                {
+                    "name": "S. Geo. and S. Sandw. Is.",
+                    "value": 92
+                },
+                {
+                    "name": "Saint Helena",
+                    "value": 28
+                },
+                {
+                    "name": "Solomon Is.",
+                    "value": 65
+                },
+                {
+                    "name": "Sierra Leone",
+                    "value": 1
+                },
+                {
+                    "name": "El Salvador",
+                    "value": 38
+                },
+                {
+                    "name": "St. Pierre and Miquelon",
+                    "value": 75
+                },
+                {
+                    "name": "São Tomé and Principe",
+                    "value": 11
+                },
+                {
+                    "name": "Suriname",
+                    "value": 48
+                },
+                {
+                    "name": "Slovakia",
+                    "value": 85
+                },
+                {
+                    "name": "Slovenia",
+                    "value": 21
+                },
+                {
+                    "name": "Sweden",
+                    "value": 58
+                },
+                {
+                    "name": "Swaziland",
+                    "value": 95
+                },
+                {
+                    "name": "Seychelles",
+                    "value": 31
+                },
+                {
+                    "name": "Syria",
+                    "value": 68
+                },
+                {
+                    "name": "Turks and Caicos Is.",
+                    "value": 4
+                },
+                {
+                    "name": "Chad",
+                    "value": 41
+                },
+                {
+                    "name": "Togo",
+                    "value": 78
+                },
+                {
+                    "name": "Thailand",
+                    "value": 14
+                },
+                {
+                    "name": "Tajikistan",
+                    "value": 51
+                },
+                {
+                    "name": "Turkmenistan",
+                    "value": 88
+                },
+                {
+                    "name": "Timor-Leste",
+                    "value": 24
+                },
+                {
+                    "name": "Tonga",
+                    "value": 61
+                },
+                {
+                    "name": "Trinidad and Tobago",
+                    "value": 98
+                },
+                {
+                    "name": "Tunisia",
+                    "value": 34
+                },
+                {
+                    "name": "Turkey",
+                    "value": 71
+                },
+                {
+                    "name": "Tanzania",
+                    "value": 7
+                },
+                {
+                    "name": "Uganda",
+                    "value": 44
+                },
+                {
+                    "name": "Ukraine",
+                    "value": 81
+                },
+                {
+                    "name": "Uruguay",
+                    "value": 17
+                },
+                {
+                    "name": "United States",
+                    "value": 54
+                },
+                {
+                    "name": "Uzbekistan",
+                    "value": 91
+                },
+                {
+                    "name": "St. Vin. and Gren.",
+                    "value": 27
+                },
+                {
+                    "name": "Venezuela",
+                    "value": 64
+                },
+                {
+                    "name": "U.S. Virgin Is.",
+                    "value": 0
+                },
+                {
+                    "name": "Vietnam",
+                    "value": 37
+                },
+                {
+                    "name": "Vanuatu",
+                    "value": 74
+                },
+                {
+                    "name": "Samoa",
+                    "value": 10
+                },
+                {
+                    "name": "Yemen",
+                    "value": 47
+                },
+                {
+                    "name": "South Africa",
+                    "value": 84
+                },
+                {
+                    "name": "Zambia",
+                    "value": 20
+                },
+                {
+                    "name": "Zimbabwe",
+                    "value": 57
+                },
+                {
+                    "name": "",
+                    "value": 94
+                },
+                {
+                    "name": "",
+                    "value": 30
+                }
+            ]
         }
-      ]
-    },
-    {
-      "title": "世界地图",
-      "subtitle": "各国家和地区演示数据",
-      "type": "map",
-      "map": "adminui-world",
-      "file": "vendor/echarts/maps/world.json",
-      "values": [
-        {
-          "name": "Somalia",
-          "value": 17
-        },
-        {
-          "name": "Liechtenstein",
-          "value": 54
-        },
-        {
-          "name": "Morocco",
-          "value": 91
-        },
-        {
-          "name": "W. Sahara",
-          "value": 27
-        },
-        {
-          "name": "Serbia",
-          "value": 64
-        },
-        {
-          "name": "Afghanistan",
-          "value": 0
-        },
-        {
-          "name": "Angola",
-          "value": 37
-        },
-        {
-          "name": "Albania",
-          "value": 74
-        },
-        {
-          "name": "Aland",
-          "value": 10
-        },
-        {
-          "name": "Andorra",
-          "value": 47
-        },
-        {
-          "name": "United Arab Emirates",
-          "value": 84
-        },
-        {
-          "name": "Argentina",
-          "value": 20
-        },
-        {
-          "name": "Armenia",
-          "value": 57
-        },
-        {
-          "name": "American Samoa",
-          "value": 94
-        },
-        {
-          "name": "Fr. S. Antarctic Lands",
-          "value": 30
-        },
-        {
-          "name": "Antigua and Barb.",
-          "value": 67
-        },
-        {
-          "name": "Australia",
-          "value": 3
-        },
-        {
-          "name": "Austria",
-          "value": 40
-        },
-        {
-          "name": "Azerbaijan",
-          "value": 77
-        },
-        {
-          "name": "Burundi",
-          "value": 13
-        },
-        {
-          "name": "Belgium",
-          "value": 50
-        },
-        {
-          "name": "Benin",
-          "value": 87
-        },
-        {
-          "name": "Burkina Faso",
-          "value": 23
-        },
-        {
-          "name": "Bangladesh",
-          "value": 60
-        },
-        {
-          "name": "Bulgaria",
-          "value": 97
-        },
-        {
-          "name": "Bahrain",
-          "value": 33
-        },
-        {
-          "name": "Bahamas",
-          "value": 70
-        },
-        {
-          "name": "Bosnia and Herz.",
-          "value": 6
-        },
-        {
-          "name": "Belarus",
-          "value": 43
-        },
-        {
-          "name": "Belize",
-          "value": 80
-        },
-        {
-          "name": "Bermuda",
-          "value": 16
-        },
-        {
-          "name": "Bolivia",
-          "value": 53
-        },
-        {
-          "name": "Brazil",
-          "value": 90
-        },
-        {
-          "name": "Barbados",
-          "value": 26
-        },
-        {
-          "name": "Brunei",
-          "value": 63
-        },
-        {
-          "name": "Bhutan",
-          "value": 100
-        },
-        {
-          "name": "Botswana",
-          "value": 36
-        },
-        {
-          "name": "Central African Rep.",
-          "value": 73
-        },
-        {
-          "name": "Canada",
-          "value": 9
-        },
-        {
-          "name": "Switzerland",
-          "value": 46
-        },
-        {
-          "name": "Chile",
-          "value": 83
-        },
-        {
-          "name": "China",
-          "value": 19
-        },
-        {
-          "name": "Côte d'Ivoire",
-          "value": 56
-        },
-        {
-          "name": "Cameroon",
-          "value": 93
-        },
-        {
-          "name": "Dem. Rep. Congo",
-          "value": 29
-        },
-        {
-          "name": "Congo",
-          "value": 66
-        },
-        {
-          "name": "Colombia",
-          "value": 2
-        },
-        {
-          "name": "Comoros",
-          "value": 39
-        },
-        {
-          "name": "Cape Verde",
-          "value": 76
-        },
-        {
-          "name": "Costa Rica",
-          "value": 12
-        },
-        {
-          "name": "Cuba",
-          "value": 49
-        },
-        {
-          "name": "Curaçao",
-          "value": 86
-        },
-        {
-          "name": "Cayman Is.",
-          "value": 22
-        },
-        {
-          "name": "N. Cyprus",
-          "value": 59
-        },
-        {
-          "name": "Cyprus",
-          "value": 96
-        },
-        {
-          "name": "Czech Rep.",
-          "value": 32
-        },
-        {
-          "name": "Germany",
-          "value": 69
-        },
-        {
-          "name": "Djibouti",
-          "value": 5
-        },
-        {
-          "name": "Dominica",
-          "value": 42
-        },
-        {
-          "name": "Denmark",
-          "value": 79
-        },
-        {
-          "name": "Dominican Rep.",
-          "value": 15
-        },
-        {
-          "name": "Algeria",
-          "value": 52
-        },
-        {
-          "name": "Ecuador",
-          "value": 89
-        },
-        {
-          "name": "Egypt",
-          "value": 25
-        },
-        {
-          "name": "Eritrea",
-          "value": 62
-        },
-        {
-          "name": "Spain",
-          "value": 99
-        },
-        {
-          "name": "Estonia",
-          "value": 35
-        },
-        {
-          "name": "Ethiopia",
-          "value": 72
-        },
-        {
-          "name": "Finland",
-          "value": 8
-        },
-        {
-          "name": "Fiji",
-          "value": 45
-        },
-        {
-          "name": "Falkland Is.",
-          "value": 82
-        },
-        {
-          "name": "France",
-          "value": 18
-        },
-        {
-          "name": "Faeroe Is.",
-          "value": 55
-        },
-        {
-          "name": "Micronesia",
-          "value": 92
-        },
-        {
-          "name": "Gabon",
-          "value": 28
-        },
-        {
-          "name": "United Kingdom",
-          "value": 65
-        },
-        {
-          "name": "Georgia",
-          "value": 1
-        },
-        {
-          "name": "Ghana",
-          "value": 38
-        },
-        {
-          "name": "Guinea",
-          "value": 75
-        },
-        {
-          "name": "Gambia",
-          "value": 11
-        },
-        {
-          "name": "Guinea-Bissau",
-          "value": 48
-        },
-        {
-          "name": "Eq. Guinea",
-          "value": 85
-        },
-        {
-          "name": "Greece",
-          "value": 21
-        },
-        {
-          "name": "Grenada",
-          "value": 58
-        },
-        {
-          "name": "Greenland",
-          "value": 95
-        },
-        {
-          "name": "Guatemala",
-          "value": 31
-        },
-        {
-          "name": "Guam",
-          "value": 68
-        },
-        {
-          "name": "Guyana",
-          "value": 4
-        },
-        {
-          "name": "Heard I. and McDonald Is.",
-          "value": 41
-        },
-        {
-          "name": "Honduras",
-          "value": 78
-        },
-        {
-          "name": "Croatia",
-          "value": 14
-        },
-        {
-          "name": "Haiti",
-          "value": 51
-        },
-        {
-          "name": "Hungary",
-          "value": 88
-        },
-        {
-          "name": "Indonesia",
-          "value": 24
-        },
-        {
-          "name": "Isle of Man",
-          "value": 61
-        },
-        {
-          "name": "India",
-          "value": 98
-        },
-        {
-          "name": "Br. Indian Ocean Ter.",
-          "value": 34
-        },
-        {
-          "name": "Ireland",
-          "value": 71
-        },
-        {
-          "name": "Iran",
-          "value": 7
-        },
-        {
-          "name": "Iraq",
-          "value": 44
-        },
-        {
-          "name": "Iceland",
-          "value": 81
-        },
-        {
-          "name": "Israel",
-          "value": 17
-        },
-        {
-          "name": "Italy",
-          "value": 54
-        },
-        {
-          "name": "Jamaica",
-          "value": 91
-        },
-        {
-          "name": "Jersey",
-          "value": 27
-        },
-        {
-          "name": "Jordan",
-          "value": 64
-        },
-        {
-          "name": "Japan",
-          "value": 0
-        },
-        {
-          "name": "Siachen Glacier",
-          "value": 37
-        },
-        {
-          "name": "Kazakhstan",
-          "value": 74
-        },
-        {
-          "name": "Kenya",
-          "value": 10
-        },
-        {
-          "name": "Kyrgyzstan",
-          "value": 47
-        },
-        {
-          "name": "Cambodia",
-          "value": 84
-        },
-        {
-          "name": "Kiribati",
-          "value": 20
-        },
-        {
-          "name": "Korea",
-          "value": 57
-        },
-        {
-          "name": "Kuwait",
-          "value": 94
-        },
-        {
-          "name": "Lao PDR",
-          "value": 30
-        },
-        {
-          "name": "Lebanon",
-          "value": 67
-        },
-        {
-          "name": "Liberia",
-          "value": 3
-        },
-        {
-          "name": "Libya",
-          "value": 40
-        },
-        {
-          "name": "Saint Lucia",
-          "value": 77
-        },
-        {
-          "name": "Sri Lanka",
-          "value": 13
-        },
-        {
-          "name": "Lesotho",
-          "value": 50
-        },
-        {
-          "name": "Lithuania",
-          "value": 87
-        },
-        {
-          "name": "Luxembourg",
-          "value": 23
-        },
-        {
-          "name": "Latvia",
-          "value": 60
-        },
-        {
-          "name": "Moldova",
-          "value": 97
-        },
-        {
-          "name": "Madagascar",
-          "value": 33
-        },
-        {
-          "name": "Mexico",
-          "value": 70
-        },
-        {
-          "name": "Macedonia",
-          "value": 6
-        },
-        {
-          "name": "Mali",
-          "value": 43
-        },
-        {
-          "name": "Malta",
-          "value": 80
-        },
-        {
-          "name": "Myanmar",
-          "value": 16
-        },
-        {
-          "name": "Montenegro",
-          "value": 53
-        },
-        {
-          "name": "Mongolia",
-          "value": 90
-        },
-        {
-          "name": "N. Mariana Is.",
-          "value": 26
-        },
-        {
-          "name": "Mozambique",
-          "value": 63
-        },
-        {
-          "name": "Mauritania",
-          "value": 100
-        },
-        {
-          "name": "Montserrat",
-          "value": 36
-        },
-        {
-          "name": "Mauritius",
-          "value": 73
-        },
-        {
-          "name": "Malawi",
-          "value": 9
-        },
-        {
-          "name": "Malaysia",
-          "value": 46
-        },
-        {
-          "name": "Namibia",
-          "value": 83
-        },
-        {
-          "name": "New Caledonia",
-          "value": 19
-        },
-        {
-          "name": "Niger",
-          "value": 56
-        },
-        {
-          "name": "Nigeria",
-          "value": 93
-        },
-        {
-          "name": "Nicaragua",
-          "value": 29
-        },
-        {
-          "name": "Niue",
-          "value": 66
-        },
-        {
-          "name": "Netherlands",
-          "value": 2
-        },
-        {
-          "name": "Norway",
-          "value": 39
-        },
-        {
-          "name": "Nepal",
-          "value": 76
-        },
-        {
-          "name": "New Zealand",
-          "value": 12
-        },
-        {
-          "name": "Oman",
-          "value": 49
-        },
-        {
-          "name": "Pakistan",
-          "value": 86
-        },
-        {
-          "name": "Panama",
-          "value": 22
-        },
-        {
-          "name": "Peru",
-          "value": 59
-        },
-        {
-          "name": "Philippines",
-          "value": 96
-        },
-        {
-          "name": "Palau",
-          "value": 32
-        },
-        {
-          "name": "Papua New Guinea",
-          "value": 69
-        },
-        {
-          "name": "Poland",
-          "value": 5
-        },
-        {
-          "name": "Puerto Rico",
-          "value": 42
-        },
-        {
-          "name": "Dem. Rep. Korea",
-          "value": 79
-        },
-        {
-          "name": "Portugal",
-          "value": 15
-        },
-        {
-          "name": "Paraguay",
-          "value": 52
-        },
-        {
-          "name": "Palestine",
-          "value": 89
-        },
-        {
-          "name": "Fr. Polynesia",
-          "value": 25
-        },
-        {
-          "name": "Qatar",
-          "value": 62
-        },
-        {
-          "name": "Romania",
-          "value": 99
-        },
-        {
-          "name": "Russia",
-          "value": 35
-        },
-        {
-          "name": "Rwanda",
-          "value": 72
-        },
-        {
-          "name": "Saudi Arabia",
-          "value": 8
-        },
-        {
-          "name": "Sudan",
-          "value": 45
-        },
-        {
-          "name": "S. Sudan",
-          "value": 82
-        },
-        {
-          "name": "Senegal",
-          "value": 18
-        },
-        {
-          "name": "Singapore",
-          "value": 55
-        },
-        {
-          "name": "S. Geo. and S. Sandw. Is.",
-          "value": 92
-        },
-        {
-          "name": "Saint Helena",
-          "value": 28
-        },
-        {
-          "name": "Solomon Is.",
-          "value": 65
-        },
-        {
-          "name": "Sierra Leone",
-          "value": 1
-        },
-        {
-          "name": "El Salvador",
-          "value": 38
-        },
-        {
-          "name": "St. Pierre and Miquelon",
-          "value": 75
-        },
-        {
-          "name": "São Tomé and Principe",
-          "value": 11
-        },
-        {
-          "name": "Suriname",
-          "value": 48
-        },
-        {
-          "name": "Slovakia",
-          "value": 85
-        },
-        {
-          "name": "Slovenia",
-          "value": 21
-        },
-        {
-          "name": "Sweden",
-          "value": 58
-        },
-        {
-          "name": "Swaziland",
-          "value": 95
-        },
-        {
-          "name": "Seychelles",
-          "value": 31
-        },
-        {
-          "name": "Syria",
-          "value": 68
-        },
-        {
-          "name": "Turks and Caicos Is.",
-          "value": 4
-        },
-        {
-          "name": "Chad",
-          "value": 41
-        },
-        {
-          "name": "Togo",
-          "value": 78
-        },
-        {
-          "name": "Thailand",
-          "value": 14
-        },
-        {
-          "name": "Tajikistan",
-          "value": 51
-        },
-        {
-          "name": "Turkmenistan",
-          "value": 88
-        },
-        {
-          "name": "Timor-Leste",
-          "value": 24
-        },
-        {
-          "name": "Tonga",
-          "value": 61
-        },
-        {
-          "name": "Trinidad and Tobago",
-          "value": 98
-        },
-        {
-          "name": "Tunisia",
-          "value": 34
-        },
-        {
-          "name": "Turkey",
-          "value": 71
-        },
-        {
-          "name": "Tanzania",
-          "value": 7
-        },
-        {
-          "name": "Uganda",
-          "value": 44
-        },
-        {
-          "name": "Ukraine",
-          "value": 81
-        },
-        {
-          "name": "Uruguay",
-          "value": 17
-        },
-        {
-          "name": "United States",
-          "value": 54
-        },
-        {
-          "name": "Uzbekistan",
-          "value": 91
-        },
-        {
-          "name": "St. Vin. and Gren.",
-          "value": 27
-        },
-        {
-          "name": "Venezuela",
-          "value": 64
-        },
-        {
-          "name": "U.S. Virgin Is.",
-          "value": 0
-        },
-        {
-          "name": "Vietnam",
-          "value": 37
-        },
-        {
-          "name": "Vanuatu",
-          "value": 74
-        },
-        {
-          "name": "Samoa",
-          "value": 10
-        },
-        {
-          "name": "Yemen",
-          "value": 47
-        },
-        {
-          "name": "South Africa",
-          "value": 84
-        },
-        {
-          "name": "Zambia",
-          "value": 20
-        },
-        {
-          "name": "Zimbabwe",
-          "value": 57
-        },
-        {
-          "name": "",
-          "value": 94
-        },
-        {
-          "name": "",
-          "value": 30
-        }
-      ]
-    }
-  ]
+    ]
 }

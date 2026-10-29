@@ -1,25 +1,25 @@
 {
-  "name": "AdminUI",
-  "version": "0.2.0",
-  "license": "MIT",
-  "entry": "src/admin-ui.js",
-  "styles": "src/admin-ui.css",
-  "global": "AdminUI",
-  "dependencies": {
-    "tabler": "1.7.0",
-    "element-plus": "2.14.7",
-    "vue": "3.5.44"
-  },
-  "requiresBuild": false,
-  "demo": "index.html",
-  "examples": [
-    "examples/starter.html",
-    "examples/components.html",
-    "examples/integration.html",
-    "examples/backend.html"
-  ],
-  "optionalDemoDependencies": {
-    "echarts": "5.6.0",
-    "ueditor-plus": "4.5.0"
-  }
+    "name": "AdminUI",
+    "version": "0.2.0",
+    "license": "MIT",
+    "entry": "src/admin-ui.js",
+    "styles": "src/admin-ui.css",
+    "global": "AdminUI",
+    "dependencies": {
+        "tabler": "1.7.0",
+        "element-plus": "2.14.7",
+        "vue": "3.5.44"
+    },
+    "requiresBuild": false,
+    "demo": "index.html",
+    "examples": [
+        "examples/starter.html",
+        "examples/components.html",
+        "examples/integration.html",
+        "examples/backend.html"
+    ],
+    "optionalDemoDependencies": {
+        "echarts": "5.6.0",
+        "ueditor-plus": "4.5.0"
+    }
 }
